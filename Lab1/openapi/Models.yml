@@ -1,5 +1,12 @@
 components:
   schemas:
+    position:
+      type: string
+      enum:
+        - HEAD_OF_DEPARTMENT
+        - LEAD_DEVELOPER
+        - COOK
+      example: HEAD_OF_DEPARTMENT
     Coordinates:
       type: object
       properties:

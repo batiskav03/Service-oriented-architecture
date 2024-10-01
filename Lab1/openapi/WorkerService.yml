@@ -33,7 +33,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#./Models/components/schemas/Worker"
+                $ref: "./Models.yml#/components/schemas/Worker"
 
 
         '400':

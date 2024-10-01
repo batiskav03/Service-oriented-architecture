@@ -49,7 +49,7 @@ paths:
           in: path
           required: true
           schema: 
-              $ref: "#/components/schemas/position"
+              $ref: "./Models.yml#/components/schemas/position"
         - name: start-date
           in: path
           required: true
@@ -65,15 +65,3 @@ paths:
         200:
           description: OK
             
-components:
-  schemas:
-    position:
-      type: string
-      enum: 
-        - HEAD_OF_DEPARTMENT
-        - LEAD_DEVELOPER
-        - COOK
-      example: HEAD_OF_DEPARTMENT
-    
-          
-      
