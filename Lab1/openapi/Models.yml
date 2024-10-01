@@ -1,0 +1,95 @@
+components:
+  schemas:
+    Coordinates:
+      type: object
+      properties:
+        x:
+          type: integer
+          format: int32
+          nullable: false
+          example: 70
+        y:
+          type: number
+          format: float
+          nullable: false
+          example: 70
+    Position:
+      type: string
+      enum:
+        - HEAD_OF_DEPARTMENT
+        - LEAD_DEVELOPER
+        - COOK
+      nullable: false
+      example: COOK
+    Status:
+      type: string
+      enum:
+        - HIRED
+        - RECOMMENDED_FOR_PROMOTION
+        - REGULAR
+        - PROBATION
+      nullable: false
+      example: HIRED
+    Color:
+      type: string
+      enum:
+        - RED
+        - BLACK
+        - ORANGE
+        - WHITE
+      nullable: false
+      example: RED
+    Country:
+      type: string
+      enum:
+        - RUSSIA
+        - FRANCE
+        - INDIA
+      nullable: false
+      example: RUSSIA
+    Person:
+      type: object
+      properties:
+        birthday:
+          type: string
+          format: date-time
+          nullable: false
+        passportID:
+          type: string
+          minimum: 6
+          nullable: true
+          example: "0b4cd6d5-5a8b-4aa7-8f4a-49b74a733a90"
+        hairColor:
+          $ref: "#/components/schemas/Color"
+        nationality:
+          $ref: "#/components/schemas/Country"
+    Worker:
+      type: object
+      properties:
+        id:
+          type: string
+          nullable: false
+          example: "0b4cd6d5-5a8b-4aa7-8f4a-49b74a733a90"
+        name:
+          type: string
+          nullable: false
+          example: "Senya"
+        coordinates:
+          $ref: "#/components/schemas/Coordinates"
+        localDate:
+          type: string
+          format: date-time
+          nullable: false
+          example: "2024-10-01T16:06:38.397Z"
+        salary:
+          type: number
+          format: float
+          example: 0
+          minumum: 0
+        position:
+          $ref: "#/components/schemas/Position"
+        status:
+          $ref: "#/components/schemas/Status"
+        person:
+          $ref: "#/components/schemas/Person"
+
