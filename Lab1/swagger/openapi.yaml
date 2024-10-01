@@ -1,0 +1,79 @@
+openapi: "3.0.2"
+info:
+  title: "HR-service"
+  description: "Service for control flow of employers"
+  version: "0.1"
+  
+servers:
+  - url: "localhost:8080/hr"
+  - url: "antilocalhost.kz/hr"
+
+paths:
+  /fire/{id}:
+    delete:
+      summary: уволить сотрудника
+      description: уволить сотрудника с заданным id из организации
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: "cb73828b-3b85-4ae8-a875-c67d1bb7ac06"
+        
+      
+      responses:
+        200:
+          description: OK
+  /hire/{person-id}/{org-id}/{position}/{start-date}:
+    post:
+      summary: принять сотрудника на работу
+      description: принять сотрудника на работу
+      parameters:
+        - name: person-id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: "cb73828b-3b85-4ae8-a875-c67d1bb7ac06"
+        - name: org-id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: "cb73828b-3b85-4ae8-a875-c67d1bb7ac06"
+        - name: position
+          in: path
+          required: true
+          schema: 
+              $ref: "#/components/schemas/position"
+        - name: start-date
+          in: path
+          required: true
+          schema:
+            type: string
+            format: date
+            example: "11-09-2001"
+            
+            
+
+            
+      responses:
+        200:
+          description: OK
+            
+components:
+  schemas:
+    position:
+      type: string
+      enum: 
+        - HEAD_OF_DEPARTMENT
+        - LEAD_DEVELOPER
+        - COOK
+      example: HEAD_OF_DEPARTMENT
+    
+          
+      
