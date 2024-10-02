@@ -99,4 +99,21 @@ components:
           $ref: "#/components/schemas/Status"
         person:
           $ref: "#/components/schemas/Person"
+  response_content:
+    ok:
+      application/json:
+        schema:
+          type: object
+          properties:
+            code:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Ok
+            time:
+              type: string
+              format: date-time
+              example: "2024-10-01T16:06:38.397Z"
+
 

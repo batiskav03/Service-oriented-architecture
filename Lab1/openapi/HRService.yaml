@@ -24,6 +24,8 @@ paths:
       responses:
         200:
           description: OK
+          content:
+            $ref: "./Models.yml#/components/response_content/ok"
         404:
           description: Сотрудник не найден
 
