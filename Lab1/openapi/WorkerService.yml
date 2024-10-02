@@ -2,7 +2,7 @@ openapi: "3.0.2"
 info:
   title: "WorkerService API"
   description: "Manages a collection of objects. The collection must store Worker class objects"
-  version: "0.1"
+  version: "0.2"
   contact:
     name: "WorkerService API"
     url: "https://elephants.org/workerapi"
