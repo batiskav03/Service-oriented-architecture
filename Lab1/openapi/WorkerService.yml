@@ -139,3 +139,25 @@ paths:
                     type: string
                     format: date-time
                     example: "2024-10-01T16:06:38.397Z"
+  /api/worker/update/{id}:
+    post:
+      summary: "Update worker information by id"
+      description: "Update worker information by id"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: "0b4cd6d5-5a8b-4aa7-8f4a-49b74a733a90"
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+
+
+      responses:
+
