@@ -21,11 +21,13 @@ paths:
             type: string
             format: uuid
             example: "cb73828b-3b85-4ae8-a875-c67d1bb7ac06"
-        
-      
       responses:
         200:
           description: OK
+        404:
+          description: Сотрудник не найден
+
+
   /hire/{person-id}/{org-id}/{position}/{start-date}:
     post:
       summary: принять сотрудника на работу
@@ -57,11 +59,8 @@ paths:
             type: string
             format: date
             example: "11-09-2001"
-            
-            
-
-            
       responses:
         200:
           description: OK
-            
+        404:
+          description: Сотрудник не найден
