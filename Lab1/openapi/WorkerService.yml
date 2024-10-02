@@ -25,6 +25,7 @@ paths:
           required: true
           schema:
             type: string
+            format: uuid
             example: "0b4cd6d5-5a8b-4aa7-8f4a-49b74a733a90"
 
       responses:
@@ -36,6 +37,72 @@ paths:
                 $ref: "./Models.yml#/components/schemas/Worker"
 
 
+        '400':
+          description: Invalid parameters supplied
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 400
+                  message:
+                    type: string
+                    example: Invalid parameters supplied
+                  time:
+                    type: string
+                    format: date-time
+                    example: "2024-10-01T16:06:38.397Z"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 500
+                  message:
+                    type: string
+                    example: Internal server error
+                  time:
+                    type: string
+                    format: date-time
+                    example: "2024-10-01T16:06:38.397Z"
+  /api/worker/delete/{id}:
+    delete:
+      summary: "Delete worker by id"
+      description: "Delete worker by id"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: "0b4cd6d5-5a8b-4aa7-8f4a-49b74a733a90"
+      responses:
+        '200':
+          description: "Delete worker by id"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: Ok
+                  time:
+                    type: string
+                    format: date-time
+                    example: "2024-10-01T16:06:38.397Z"
         '400':
           description: Invalid parameters supplied
           content:
