@@ -1,48 +1,34 @@
 components:
   schemas:
-    coordinates:
-      type: object
-      properties:
-        x:
-          type: integer
-          format: int32
-          nullable: false
-          example: 70
-        y:
-          type: number
-          format: float
-          nullable: false
-          example: 70
-    nullable_coordinates:
-      type: object
-      properties:
-        x:
-          type: integer
-          format: int32
-          nullable: true
-          example: 70
-        y:
-          type: number
-          format: float
-          nullable: true
-          example: 70
     position:
       type: string
       enum:
         - HEAD_OF_DEPARTMENT
         - LEAD_DEVELOPER
         - COOK
-      nullable: false
-      example: COOK
-    nullable_position:
+      example: HEAD_OF_DEPARTMENT
+    Coordinates:
+      type: object
+      properties:
+        x:
+          type: integer
+          format: int32
+          nullable: false
+          example: 70
+        y:
+          type: number
+          format: float
+          nullable: false
+          example: 70
+    Position:
       type: string
       enum:
         - HEAD_OF_DEPARTMENT
         - LEAD_DEVELOPER
         - COOK
-      nullable: true
+      nullable: false
       example: COOK
-    status:
+    Status:
       type: string
       enum:
         - HIRED
@@ -51,16 +37,7 @@ components:
         - PROBATION
       nullable: false
       example: HIRED
-    nullable_status:
-      type: string
-      enum:
-        - HIRED
-        - RECOMMENDED_FOR_PROMOTION
-        - REGULAR
-        - PROBATION
-      nullable: true
-      example: HIRED
-    color:
+    Color:
       type: string
       enum:
         - RED
@@ -69,16 +46,7 @@ components:
         - WHITE
       nullable: false
       example: RED
-    nullable_color:
-      type: string
-      enum:
-        - RED
-        - BLACK
-        - ORANGE
-        - WHITE
-      nullable: true
-      example: RED
-    country:
+    Country:
       type: string
       enum:
         - RUSSIA
@@ -86,15 +54,7 @@ components:
         - INDIA
       nullable: false
       example: RUSSIA
-    nullable_country:
-      type: string
-      enum:
-        - RUSSIA
-        - FRANCE
-        - INDIA
-      nullable: true
-      example: RUSSIA
-    person:
+    Person:
       type: object
       properties:
         birthday:
@@ -107,26 +67,10 @@ components:
           nullable: true
           example: "0b4cd6d5-5a8b-4aa7-8f4a-49b74a733a90"
         hairColor:
-          $ref: "#/components/schemas/color"
+          $ref: "#/components/schemas/Color"
         nationality:
-          $ref: "#/components/schemas/country"
-    nullable_person:
-      type: object
-      properties:
-        birthday:
-          type: string
-          format: date-time
-          nullable: false
-        passportID:
-          type: string
-          minimum: 6
-          nullable: true
-          example: "0b4cd6d5-5a8b-4aa7-8f4a-49b74a733a90"
-        hairColor:
-          $ref: "#/components/schemas/nullable_color"
-        nationality:
-          $ref: "#/components/schemas/nullable_country"
-    worker:
+          $ref: "#/components/schemas/Country"
+    Worker:
       type: object
       properties:
         id:
@@ -138,7 +82,7 @@ components:
           nullable: false
           example: "Senya"
         coordinates:
-          $ref: "#/components/schemas/coordinates"
+          $ref: "#/components/schemas/Coordinates"
         localDate:
           type: string
           format: date-time
@@ -150,39 +94,26 @@ components:
           example: 0
           minumum: 0
         position:
-          $ref: "#/components/schemas/position"
+          $ref: "#/components/schemas/Position"
         status:
-          $ref: "#/components/schemas/status"
+          $ref: "#/components/schemas/Status"
         person:
-          $ref: "#/components/schemas/person"
-    nullable_worker:
-      type: object
-      properties:
-        id:
-          type: string
-          nullable: true
-          example: "0b4cd6d5-5a8b-4aa7-8f4a-49b74a733a90"
-        name:
-          type: string
-          nullable: true
-          example: "Senya"
-        coordinates:
-          $ref: "#/components/schemas/nullable_coordinates"
-        localDate:
-          type: string
-          format: date-time
-          nullable: true
-          example: "2024-10-01T16:06:38.397Z"
-        salary:
-          type: number
-          format: float
-          example: 0
-          minumum: 0
-          nullable: true
-        position:
-          $ref: "#/components/schemas/nullable_position"
-        status:
-          $ref: "#/components/schemas/nullable_status"
-        person:
-          $ref: "#/components/schemas/nullable_person"
-
+          $ref: "#/components/schemas/Person"
+  response_content:
+    ok:
+      description: ok
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: Ok
+              time:
+                type: string
+                format: date-time
+                example: "2024-10-01T16:06:38.397Z"

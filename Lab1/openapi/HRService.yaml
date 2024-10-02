@@ -23,9 +23,7 @@ paths:
             example: "cb73828b-3b85-4ae8-a875-c67d1bb7ac06"
       responses:
         200:
-          description: OK
-          content:
-            $ref: "./Models.yml#/components/response_content/ok"
+          $ref: "./Models.yml#/components/response_content/ok"
         404:
           description: Сотрудник не найден
 
