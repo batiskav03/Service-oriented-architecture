@@ -155,6 +155,31 @@ components:
           $ref: "#/components/schemas/status"
         person:
           $ref: "#/components/schemas/person"
+    worker_without_id:
+      type: object
+      properties:
+        name:
+          type: string
+          nullable: false
+          example: "Senya"
+        coordinates:
+          $ref: "#/components/schemas/coordinates"
+        localDate:
+          type: string
+          format: date-time
+          nullable: false
+          example: "2024-10-01T16:06:38.397Z"
+        salary:
+          type: number
+          format: float
+          example: 0
+          minumum: 0
+        position:
+          $ref: "#/components/schemas/position"
+        status:
+          $ref: "#/components/schemas/status"
+        person:
+          $ref: "#/components/schemas/person"
     nullable_worker:
       type: object
       properties:
@@ -215,6 +240,40 @@ components:
               message:
                 type: string
                 example: Resource not found
+              time:
+                type: string
+                format: date-time
+                example: "2024-10-01T16:06:38.397Z"
+    bad_request:
+      description: "Bad request"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                example: 400
+              message:
+                type: string
+                example: Bad request
+              time:
+                type: string
+                format: date-time
+                example: "2024-10-01T16:06:38.397Z"
+    initial_server_error:
+      description: "Initial server error"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                example: 500
+              message:
+                type: string
+                example: Initial server error
               time:
                 type: string
                 format: date-time

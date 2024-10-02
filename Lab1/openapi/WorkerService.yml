@@ -138,8 +138,9 @@ paths:
                     type: string
                     format: date-time
                     example: "2024-10-01T16:06:38.397Z"
+
   /api/worker/update/{id}:
-    post:
+    patch:
       summary: "Update worker information by id"
       description: "Update worker information by id"
       parameters:
@@ -152,12 +153,103 @@ paths:
             example: "0b4cd6d5-5a8b-4aa7-8f4a-49b74a733a90"
       requestBody:
         content:
-          multipart/form-data:
+          application/json:
             schema:
                $ref: "./Models.yml#/components/schemas/nullable_worker"
       responses:
         200:
           $ref: "./Models.yml#/components/response_content/ok"
+        400:
+          $ref: "./Models.yml#/components/response_content/bad_request"
         404:
           $ref: "./Models.yml#/components/response_content/not_found"
+        500:
+          $ref: "./Models.yml#/components/response_content/initial_server_error"
+  /api/worker/create:
+    post:
+      summary: "Create a new worker"
+      description: "Create a new worker"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "./Models.yml#/components/schemas/worker_without_id"
+      responses:
+        200:
+          $ref: "./Models.yml#/components/response_content/ok"
+        400:
+          $ref: "./Models.yml#/components/response_content/bad_request"
+        500:
+          $ref: "./Models.yml#/components/response_content/initial_server_error"
+
+  /api/workers/get:
+    get:
+      summary: Get list of workers
+      description: Get list of workers
+      parameters:
+        - name: sort
+          in: query
+          description: Choose your order by increasing "-" before parameter you need.
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+              default: id
+              enum:
+                - -id
+                - -name
+                - -coordinates.x
+                - -coordinates.y
+                - -creationDate
+                - -salary
+                - -startDate
+                - -position
+                - -status
+                - -person.birthday
+                - -person.passportID
+                - -person.hairColor
+                - -person.nationality
+        - name: filter
+          in: query
+          required: false
+          description: Insert a fields for sorting. Incorrect filling would have 400 response
+          schema:
+            type: array
+            items:
+              type: string
+              example: id[eq]=1
+              pattern: '^(id|name|coordinates\.x|coordinates\.y|creationDate|salary|startDate|position|status|view|person\.birthday|person\.passportID|person\.hairColor|person.nationality)\[(=|!=|>|<|)\]=.+$'
+          style: deepObject
+          explode: true
+        - name: page
+          in: query
+          required: false
+          description: page number for pagination
+          schema:
+            type: integer
+            default: 0
+            minimum: 0
+        - name: pageSize
+          in: query
+          required: false
+          description: page size
+          schema:
+            type: integer
+            default: 10
+            minimum: 1
+      responses:
+        200:
+          description: Returns an array of flats based on the specified parameters
+          content:
+            application/json:
+              schema:
+                $ref: './Models.yml#/components/schemas/worker'
+        400:
+          $ref: "./Models.yml#/components/response_content/bad_request"
+        404:
+          $ref: "./Models.yml#/components/response_content/not_found"
+        500:
+          $ref: "./Models.yml#/components/response_content/initial_server_error"
+
 
