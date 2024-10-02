@@ -156,14 +156,8 @@ paths:
             schema:
                $ref: "./Models.yml#/components/schemas/nullable_worker"
       responses:
-        '200':
-          description: "Update worker by id"
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  code:
-                    type: integer
-                    example: 200
+        200:
+          $ref: "./Models.yml#/components/response_content/ok"
+        404:
+          $ref: "./Models.yml#/components/response_content/not_found"
 

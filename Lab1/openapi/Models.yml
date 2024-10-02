@@ -7,7 +7,16 @@ components:
         - LEAD_DEVELOPER
         - COOK
       example: HEAD_OF_DEPARTMENT
-    Coordinates:
+      nullable: false
+    nullable_position:
+      type: string
+      enum:
+        - HEAD_OF_DEPARTMENT
+        - LEAD_DEVELOPER
+        - COOK
+      example: HEAD_OF_DEPARTMENT
+      nullable: true
+    coordinates:
       type: object
       properties:
         x:
@@ -20,15 +29,20 @@ components:
           format: float
           nullable: false
           example: 70
-    Position:
-      type: string
-      enum:
-        - HEAD_OF_DEPARTMENT
-        - LEAD_DEVELOPER
-        - COOK
-      nullable: false
-      example: COOK
-    Status:
+    nullable_coordinates:
+      type: object
+      properties:
+        x:
+          type: integer
+          format: int32
+          nullable: true
+          example: 70
+        y:
+          type: number
+          format: float
+          nullable: true
+          example: 70
+    status:
       type: string
       enum:
         - HIRED
@@ -37,7 +51,16 @@ components:
         - PROBATION
       nullable: false
       example: HIRED
-    Color:
+    nullable_status:
+      type: string
+      enum:
+        - HIRED
+        - RECOMMENDED_FOR_PROMOTION
+        - REGULAR
+        - PROBATION
+      nullable: true
+      example: HIRED
+    color:
       type: string
       enum:
         - RED
@@ -46,7 +69,16 @@ components:
         - WHITE
       nullable: false
       example: RED
-    Country:
+    nullable_color:
+      type: string
+      enum:
+        - RED
+        - BLACK
+        - ORANGE
+        - WHITE
+      nullable: false
+      example: RED
+    country:
       type: string
       enum:
         - RUSSIA
@@ -54,7 +86,15 @@ components:
         - INDIA
       nullable: false
       example: RUSSIA
-    Person:
+    nullable_country:
+      type: string
+      enum:
+        - RUSSIA
+        - FRANCE
+        - INDIA
+      nullable: false
+      example: RUSSIA
+    person:
       type: object
       properties:
         birthday:
@@ -67,10 +107,26 @@ components:
           nullable: true
           example: "0b4cd6d5-5a8b-4aa7-8f4a-49b74a733a90"
         hairColor:
-          $ref: "#/components/schemas/Color"
+          $ref: "#/components/schemas/color"
         nationality:
-          $ref: "#/components/schemas/Country"
-    Worker:
+          $ref: "#/components/schemas/country"
+    nullable_person:
+      type: object
+      properties:
+        birthday:
+          type: string
+          format: date-time
+          nullable: true
+        passportID:
+          type: string
+          minimum: 6
+          nullable: true
+          example: "0b4cd6d5-5a8b-4aa7-8f4a-49b74a733a90"
+        hairColor:
+          $ref: "#/components/schemas/nullable_color"
+        nationality:
+          $ref: "#/components/schemas/nullable_country"
+    worker:
       type: object
       properties:
         id:
@@ -82,7 +138,7 @@ components:
           nullable: false
           example: "Senya"
         coordinates:
-          $ref: "#/components/schemas/Coordinates"
+          $ref: "#/components/schemas/coordinates"
         localDate:
           type: string
           format: date-time
@@ -94,14 +150,43 @@ components:
           example: 0
           minumum: 0
         position:
-          $ref: "#/components/schemas/Position"
+          $ref: "#/components/schemas/position"
         status:
-          $ref: "#/components/schemas/Status"
+          $ref: "#/components/schemas/status"
         person:
-          $ref: "#/components/schemas/Person"
+          $ref: "#/components/schemas/person"
+    nullable_worker:
+      type: object
+      properties:
+        id:
+          type: string
+          nullable: true
+          example: "0b4cd6d5-5a8b-4aa7-8f4a-49b74a733a90"
+        name:
+          type: string
+          nullable: true
+          example: "Senya"
+        coordinates:
+          $ref: "#/components/schemas/coordinates"
+        localDate:
+          type: string
+          format: date-time
+          nullable: true
+          example: "2024-10-01T16:06:38.397Z"
+        salary:
+          type: number
+          format: float
+          example: 0
+          minumum: 0
+        position:
+          $ref: "#/components/schemas/nullable_position"
+        status:
+          $ref: "#/components/schemas/nullable_status"
+        person:
+          $ref: "#/components/schemas/nullable_person"
   response_content:
     ok:
-      description: ok
+      description: "ok"
       content:
         application/json:
           schema:
@@ -117,3 +202,21 @@ components:
                 type: string
                 format: date-time
                 example: "2024-10-01T16:06:38.397Z"
+    not_found:
+      description: "Resource not found"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                example: 404
+              message:
+                type: string
+                example: Resource not found
+              time:
+                type: string
+                format: date-time
+                example: "2024-10-01T16:06:38.397Z"
+
