@@ -126,7 +126,7 @@ components:
           $ref: "#/components/schemas/nullable_color"
         nationality:
           $ref: "#/components/schemas/nullable_country"
-    Worker:
+    worker:
       type: object
       properties:
         id:

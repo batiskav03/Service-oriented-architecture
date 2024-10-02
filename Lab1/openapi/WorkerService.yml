@@ -34,7 +34,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./Models.yml#/components/schemas/Worker"
+                $ref: "./Models.yml#/components/schemas/worker"
 
 
         '400':
@@ -155,9 +155,16 @@ paths:
         content:
           multipart/form-data:
             schema:
-              type: object
-              properties:
-
-
+               $ref: "./Models.yml#/components/schemas/nullable_worker"
       responses:
+        '200':
+          description: "Update worker by id"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
 
