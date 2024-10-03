@@ -34,8 +34,6 @@ paths:
             application/json:
               schema:
                 $ref: "./Models.yml#/components/schemas/worker"
-
-
         '400':
           description: Invalid parameters supplied
           content:
@@ -220,8 +218,6 @@ paths:
               type: string
               example: id[eq]=1
               pattern: '^(id|name|coordinates\.x|coordinates\.y|creationDate|salary|startDate|position|status|view|person\.birthday|person\.passportID|person\.hairColor|person.nationality)\[(=|!=|>|<|)\]=.+$'
-          style: deepObject
-          explode: true
         - name: page
           in: query
           required: false
@@ -249,6 +245,28 @@ paths:
           $ref: "./Models.yml#/components/response_content/bad_request"
         404:
           $ref: "./Models.yml#/components/response_content/not_found"
+        500:
+          $ref: "./Models.yml#/components/response_content/initial_server_error"
+  /api/worker/getUniqPosition:
+    get:
+      summary: Get list of uniq position per Worker
+      description: Get list of uniq position per Worker
+      responses:
+        200:
+          description: Returns list of an uniq positions per Workers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  oneOf:
+                    - allOf:
+                      - $ref: './Models.yml#/components/schemas/position'
+                      - type: object
+                        example: COOK
+                    - $ref: './Models.yml#/components/schemas/position'
+        400:
+          $ref: './Models.yml#/components/response_content/bad_request'
         500:
           $ref: "./Models.yml#/components/response_content/initial_server_error"
 
