@@ -24,9 +24,11 @@ paths:
       responses:
         200:
           $ref: "./Models.yml#/components/response_content/ok"
-
         404:
           $ref: "./Models.yml#/components/response_content/not_found"
+        500:
+          $ref: "./Models.yml#/components/response_content/initial_server_error"
+
 
   /hire/{person-id}/{org-id}/{position}/{start-date}:
     post:
@@ -64,4 +66,6 @@ paths:
           $ref: "./Models.yml#/components/response_content/ok"
         404:
           $ref: "./Models.yml#/components/response_content/not_found"
+        500:
+          $ref: "./Models.yml#/components/response_content/initial_server_error"
 
