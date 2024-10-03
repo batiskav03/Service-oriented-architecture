@@ -24,9 +24,9 @@ paths:
       responses:
         200:
           $ref: "./Models.yml#/components/response_content/ok"
-        404:
-          description: Сотрудник не найден
 
+        404:
+          $ref: "./Models.yml#/components/response_content/not_found"
 
   /hire/{person-id}/{org-id}/{position}/{start-date}:
     post:
@@ -61,6 +61,7 @@ paths:
             example: "11-09-2001"
       responses:
         200:
-          description: OK
+          $ref: "./Models.yml#/components/response_content/ok"
         404:
-          description: Сотрудник не найден
+          $ref: "./Models.yml#/components/response_content/not_found"
+
