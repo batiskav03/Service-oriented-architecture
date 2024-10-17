@@ -23,11 +23,11 @@ paths:
             example: "cb73828b-3b85-4ae8-a875-c67d1bb7ac06"
       responses:
         200:
-          $ref: "./Models.yml#/components/response_content/ok"
+          $ref: "./Models.yml#/components/ResponseContent/ok"
         404:
-          $ref: "./Models.yml#/components/response_content/not_found"
+          $ref: "./Models.yml#/components/ResponseContent/NotFound"
         500:
-          $ref: "./Models.yml#/components/response_content/initial_server_error"
+          $ref: "./Models.yml#/components/ResponseContent/InitialServerError"
 
 
   /hire/{person-id}/{org-id}/{position}/{start-date}:
@@ -63,9 +63,13 @@ paths:
             example: "11-09-2001"
       responses:
         200:
-          $ref: "./Models.yml#/components/response_content/ok"
+          $ref: "./Models.yml#/components/ResponseContent/ok"
         404:
-          $ref: "./Models.yml#/components/response_content/not_found"
+          $ref: "./Models.yml#/components/ResponseContent/NotFound"
         500:
-          $ref: "./Models.yml#/components/response_content/initial_server_error"
+          $ref: "./Models.yml#/components/ResponseContent/InitialServerError"
+        503:
+          $ref: "./Models.yml#/components/ResponseContent/ServiceUnavailable"
+
+
 
