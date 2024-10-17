@@ -33,7 +33,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./Models.yml#/components/schemas/worker"
+                $ref: "./Models.yml#/components/schemas/Worker"
         '400':
           description: Invalid parameters supplied
           content:
@@ -100,6 +100,8 @@ paths:
                     type: string
                     format: date-time
                     example: "2024-10-01T16:06:38.397Z"
+        204:
+          $ref: "./Models.yml#/components/ResponseContent/NotFound"
         '400':
           description: Invalid parameters supplied
           content:
@@ -153,16 +155,20 @@ paths:
         content:
           application/json:
             schema:
-               $ref: "./Models.yml#/components/schemas/nullable_worker"
+               $ref: "./Models.yml#/components/schemas/NullableWorker"
       responses:
         200:
-          $ref: "./Models.yml#/components/response_content/ok"
+          $ref: "./Models.yml#/components/ResponseContent/ok"
+        204:
+          $ref: './Models.yml#/components/ResponseContent/NoContent'
+        304:
+          $ref: './Models.yml#/components/ResponseContent/NoModified'
         400:
-          $ref: "./Models.yml#/components/response_content/bad_request"
+          $ref: "./Models.yml#/components/ResponseContent/BadRequest"
         404:
-          $ref: "./Models.yml#/components/response_content/not_found"
+          $ref: "./Models.yml#/components/ResponseContent/NotFound"
         500:
-          $ref: "./Models.yml#/components/response_content/initial_server_error"
+          $ref: "./Models.yml#/components/ResponseContent/InitialServerError"
   /api/worker/create:
     post:
       summary: "Create a new worker"
@@ -171,14 +177,15 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "./Models.yml#/components/schemas/worker_without_id"
+              $ref: "./Models.yml#/components/schemas/WorkerWithoutId"
       responses:
         200:
-          $ref: "./Models.yml#/components/response_content/ok"
+          $ref: "./Models.yml#/components/ResponseContent/ok"
+
         400:
-          $ref: "./Models.yml#/components/response_content/bad_request"
+          $ref: "./Models.yml#/components/ResponseContent/BadRequest"
         500:
-          $ref: "./Models.yml#/components/response_content/initial_server_error"
+          $ref: "./Models.yml#/components/ResponseContent/InitialServerError"
 
   /api/workers/get:
     get:
@@ -216,8 +223,24 @@ paths:
             type: array
             items:
               type: string
-              example: id[eq]=1
-              pattern: '^(id|name|coordinates\.x|coordinates\.y|creationDate|salary|startDate|position|status|view|person\.birthday|person\.passportID|person\.hairColor|person.nationality)\[(=|!=|>|<|)\]=.+$'
+              enum:
+                - -id
+                - -name
+                - -coordinates.x
+                - -coordinates.y
+                - -creationDate
+                - -salary
+                - -startDate
+                - -position
+                - -status
+                - -person.birthday
+                - -person.passportID
+                - -person.hairColor
+                - -person.nationality
+                - -=
+                - -!=
+                - -<
+                - ->
         - name: page
           in: query
           required: false
@@ -240,13 +263,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: './Models.yml#/components/schemas/worker'
+                $ref: './Models.yml#/components/schemas/Worker'
+        204:
+          $ref: "./Models.yml#/components/ResponseContent/NoContent"
         400:
-          $ref: "./Models.yml#/components/response_content/bad_request"
+          $ref: "./Models.yml#/components/ResponseContent/BadRequest"
         404:
-          $ref: "./Models.yml#/components/response_content/not_found"
+          $ref: "./Models.yml#/components/ResponseContent/NotFound"
         500:
-          $ref: "./Models.yml#/components/response_content/initial_server_error"
+          $ref: "./Models.yml#/components/ResponseContent/InitialServerError"
   /api/worker/getUniqPosition:
     get:
       summary: Get list of uniq position per Worker
@@ -265,9 +290,9 @@ paths:
                       - type: object
                         example: COOK
                     - $ref: './Models.yml#/components/schemas/position'
+        204:
+          $ref: './Models.yml#/components/ResponseContent/NoContent'
         400:
-          $ref: './Models.yml#/components/response_content/bad_request'
+          $ref: './Models.yml#/components/ResponseContent/BadRequest'
         500:
-          $ref: "./Models.yml#/components/response_content/initial_server_error"
-
-
+          $ref: "./Models.yml#/components/ResponseContent/InitialServerError"

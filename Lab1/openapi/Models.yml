@@ -8,7 +8,7 @@ components:
         - COOK
       example: HEAD_OF_DEPARTMENT
       nullable: false
-    nullable_position:
+    NullablePosition:
       type: string
       enum:
         - HEAD_OF_DEPARTMENT
@@ -29,7 +29,7 @@ components:
           format: float
           nullable: false
           example: 70
-    nullable_coordinates:
+    NullableCoordinates:
       type: object
       properties:
         x:
@@ -51,7 +51,7 @@ components:
         - PROBATION
       nullable: false
       example: HIRED
-    nullable_status:
+    NullableStatus:
       type: string
       enum:
         - HIRED
@@ -69,7 +69,7 @@ components:
         - WHITE
       nullable: false
       example: RED
-    nullable_color:
+    NullableColor:
       type: string
       enum:
         - RED
@@ -86,7 +86,7 @@ components:
         - INDIA
       nullable: false
       example: RUSSIA
-    nullable_country:
+    NullableCountry:
       type: string
       enum:
         - RUSSIA
@@ -110,7 +110,7 @@ components:
           $ref: "#/components/schemas/color"
         nationality:
           $ref: "#/components/schemas/country"
-    nullable_person:
+    NullablePerson:
       type: object
       properties:
         birthday:
@@ -123,10 +123,10 @@ components:
           nullable: true
           example: "0b4cd6d5-5a8b-4aa7-8f4a-49b74a733a90"
         hairColor:
-          $ref: "#/components/schemas/nullable_color"
+          $ref: "#/components/schemas/NullableColor"
         nationality:
-          $ref: "#/components/schemas/nullable_country"
-    worker:
+          $ref: "#/components/schemas/NullableCountry"
+    Worker:
       type: object
       properties:
         id:
@@ -155,7 +155,7 @@ components:
           $ref: "#/components/schemas/status"
         person:
           $ref: "#/components/schemas/person"
-    worker_without_id:
+    WorkerWithoutId:
       type: object
       properties:
         name:
@@ -180,7 +180,7 @@ components:
           $ref: "#/components/schemas/status"
         person:
           $ref: "#/components/schemas/person"
-    nullable_worker:
+    NullableWorker:
       type: object
       properties:
         id:
@@ -204,12 +204,12 @@ components:
           example: 0
           minumum: 0
         position:
-          $ref: "#/components/schemas/nullable_position"
+          $ref: "#/components/schemas/NullablePosition"
         status:
-          $ref: "#/components/schemas/nullable_status"
+          $ref: "#/components/schemas/NullableStatus"
         person:
-          $ref: "#/components/schemas/nullable_person"
-  response_content:
+          $ref: "#/components/schemas/NullablePerson"
+  ResponseContent:
     ok:
       description: "ok"
       content:
@@ -227,7 +227,7 @@ components:
                 type: string
                 format: date-time
                 example: "2024-10-01T16:06:38.397Z"
-    not_found:
+    NotFound:
       description: "Resource not found"
       content:
         application/json:
@@ -244,7 +244,7 @@ components:
                 type: string
                 format: date-time
                 example: "2024-10-01T16:06:38.397Z"
-    bad_request:
+    BadRequest:
       description: "Bad request"
       content:
         application/json:
@@ -261,7 +261,7 @@ components:
                 type: string
                 format: date-time
                 example: "2024-10-01T16:06:38.397Z"
-    initial_server_error:
+    InitialServerError:
       description: "Initial server error"
       content:
         application/json:
@@ -274,6 +274,57 @@ components:
               message:
                 type: string
                 example: Initial server error
+              time:
+                type: string
+                format: date-time
+                example: "2024-10-01T16:06:38.397Z"
+    ServiceUnavailable:
+      description: "service unavalible"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                example: 503
+              message:
+                type: string
+                example: service unavalible
+              time:
+                type: string
+                format: date-time
+                example: "2024-10-01T16:06:38.397Z"
+    NoContent:
+      description: "No Content"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                example: 204
+              message:
+                type: string
+                example: No Content
+              time:
+                type: string
+                format: date-time
+                example: "2024-10-01T16:06:38.397Z"
+    NoModified:
+      description: "No Modified"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                example: 304
+              message:
+                type: string
+                example: Business no modified don't disturb
               time:
                 type: string
                 format: date-time
