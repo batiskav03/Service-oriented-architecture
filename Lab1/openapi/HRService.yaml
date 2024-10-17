@@ -1,13 +1,11 @@
-openapi: "3.0.2"
+openapi: "3.0.3"
 info:
   title: "HR-service"
   description: "Service for control flow of employers"
   version: "0.1"
-  
 servers:
-  - url: "localhost:8080/hr"
-  - url: "antilocalhost.kz/hr"
-
+  - url: "https:/localhost:8080/hr"
+  - url: "https:/antilocalhost.kz/hr"
 paths:
   /fire/{id}:
     delete:
@@ -28,8 +26,6 @@ paths:
           $ref: "./Models.yml#/components/ResponseContent/NotFound"
         500:
           $ref: "./Models.yml#/components/ResponseContent/InitialServerError"
-
-
   /hire/{person-id}/{org-id}/{position}/{start-date}:
     post:
       summary: принять сотрудника на работу
@@ -70,6 +66,3 @@ paths:
           $ref: "./Models.yml#/components/ResponseContent/InitialServerError"
         503:
           $ref: "./Models.yml#/components/ResponseContent/ServiceUnavailable"
-
-
-
