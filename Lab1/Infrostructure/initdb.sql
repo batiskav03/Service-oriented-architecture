@@ -5,6 +5,15 @@ create table coordinates
     y int
 )
 
+create table persons
+(
+    person_uuid PRIMARY KEY,
+    birthday DATE,
+    passport_uuid UUID,
+    hairColor TEXT,
+    nationality TEXT
+);
+
 create table users
 (
     user_uuid UUID PRIMARY KEY,
@@ -16,11 +25,4 @@ create table users
     person UUID REFERENCES persons (person_uuid),
 );
 
-create table persons
-(
-    person_uuid PRIMARY KEY,
-    birthday DATE,
-    passport_uuid UUID,
-    hairColor TEXT,
-    nationality TEXT
-);
+
