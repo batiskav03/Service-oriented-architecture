@@ -1,8 +1,8 @@
 create table coordinates
 (
     coordinates_uuid UUID PRIMARY KEY,
-    x bigint,
-    y int
+    x BIGINT,
+    y INT
 );
 
 create table persons
@@ -17,9 +17,9 @@ create table persons
 create table locations
 (
     location_uuid UUID PRIMARY KEY,
-    x bigint,
-    y float,
-    z float,
+    x BIGINT,
+    y FLOAT,
+    z FLOAT,
     name TEXT
 );
 
@@ -29,7 +29,7 @@ create table users
     name TEXT,
     coordinates UUID REFERENCES coordinates (coordinates_uuid),
     creationTime DATE,
-    salary int,
+    salary INT,
     startDate DATE,
     status TEXT,
     person UUID REFERENCES persons (person_uuid)

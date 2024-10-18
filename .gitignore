@@ -1,0 +1,5 @@
+*/.idea
+.idea
+./Lab1/HR-Service/target
+./Lab1/WorkerService/target
+.gitignore
