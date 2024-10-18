@@ -139,16 +139,21 @@ components:
           example: "Senya"
         coordinates:
           $ref: "#/components/schemas/coordinates"
-        localDate:
+        creationDate:
           type: string
           format: date-time
-          nullable: false
+          nullable: true
           example: "2024-10-01T16:06:38.397Z"
         salary:
           type: number
           format: float
           example: 0
-          minumum: 0
+          minimum: 0
+        startDate:
+          type: string
+          format: date-time
+          nullable: true
+          example: "2024-10-01T16:06:38.397Z"
         position:
           $ref: "#/components/schemas/position"
         status:
@@ -164,22 +169,49 @@ components:
           example: "Senya"
         coordinates:
           $ref: "#/components/schemas/coordinates"
-        localDate:
+        creationDate:
           type: string
           format: date-time
-          nullable: false
+          nullable: true
           example: "2024-10-01T16:06:38.397Z"
         salary:
           type: number
           format: float
           example: 0
-          minumum: 0
+          minimum: 0
+        startDate:
+          type: string
+          format: date-time
+          nullable: true
+          example: "2024-10-01T16:06:38.397Z"
         position:
           $ref: "#/components/schemas/position"
         status:
           $ref: "#/components/schemas/status"
         person:
           $ref: "#/components/schemas/person"
+    Location:
+      type: object
+      properties:
+        x:
+          type: number
+          format: long
+          example: 0
+          nullable: false
+        y:
+          type: number
+          format: float
+          example: 0
+          nullable: false
+        z:
+          type: number
+          format: float
+          example: 0
+          nullable: false
+        name:
+          type: string
+          nullable: false
+          example: Junkyard
     NullableWorker:
       type: object
       properties:
@@ -193,7 +225,7 @@ components:
           example: "Senya"
         coordinates:
           $ref: "#/components/schemas/coordinates"
-        localDate:
+        creationDate:
           type: string
           format: date-time
           nullable: true
@@ -202,7 +234,12 @@ components:
           type: number
           format: float
           example: 0
-          minumum: 0
+          minimum: 0
+        startDate:
+          type: string
+          format: date-time
+          nullable: true
+          example: "2024-10-01T16:06:38.397Z"
         position:
           $ref: "#/components/schemas/NullablePosition"
         status:
