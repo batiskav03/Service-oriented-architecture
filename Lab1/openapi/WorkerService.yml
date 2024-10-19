@@ -68,6 +68,8 @@ paths:
                     type: string
                     format: date-time
                     example: "2024-10-01T16:06:38.397Z"
+        503:
+          $ref: "./Models.yml#/components/ResponseContent/ServerUnavailable"
   /api/worker/delete/{id}:
     delete:
       summary: "Delete worker by id"
@@ -136,6 +138,8 @@ paths:
                     type: string
                     format: date-time
                     example: "2024-10-01T16:06:38.397Z"
+        503:
+          $ref: "./Models.yml#/components/ResponseContent/ServerUnavailable"
   /api/worker/update/{id}:
     patch:
       summary: "Update worker information by id"
@@ -166,6 +170,8 @@ paths:
           $ref: "./Models.yml#/components/ResponseContent/NotFound"
         500:
           $ref: "./Models.yml#/components/ResponseContent/InitialServerError"
+        503:
+          $ref: "./Models.yml#/components/ResponseContent/ServerUnavailable"
   /api/worker/create:
     post:
       summary: "Create a new worker"
@@ -183,6 +189,8 @@ paths:
           $ref: "./Models.yml#/components/ResponseContent/BadRequest"
         500:
           $ref: "./Models.yml#/components/ResponseContent/InitialServerError"
+        503:
+          $ref: "./Models.yml#/components/ResponseContent/ServerUnavailable"
   /api/workers/get:
     get:
       summary: Get list of workers
@@ -268,6 +276,8 @@ paths:
           $ref: "./Models.yml#/components/ResponseContent/NotFound"
         500:
           $ref: "./Models.yml#/components/ResponseContent/InitialServerError"
+        503:
+          $ref: "./Models.yml#/components/ResponseContent/ServerUnavailable"
   /api/worker/getUniqPosition:
     get:
       summary: Get list of uniq position per Worker
@@ -292,3 +302,5 @@ paths:
           $ref: './Models.yml#/components/ResponseContent/BadRequest'
         500:
           $ref: "./Models.yml#/components/ResponseContent/InitialServerError"
+        503:
+          $ref: "./Models.yml#/components/ResponseContent/ServerUnavailable"

@@ -26,6 +26,8 @@ paths:
           $ref: "./Models.yml#/components/ResponseContent/NotFound"
         500:
           $ref: "./Models.yml#/components/ResponseContent/InitialServerError"
+        503:
+          $ref: "./Models.yml#/components/ResponseContent/ServerUnavailable"
   /hire/{person-id}/{org-id}/{position}/{start-date}:
     post:
       summary: принять сотрудника на работу
