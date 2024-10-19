@@ -366,4 +366,21 @@ components:
                 type: string
                 format: date-time
                 example: "2024-10-01T16:06:38.397Z"
+    ServerUnavailable:
+      description: "Server unavailable"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                example: 304
+              message:
+                type: string
+                example: "Server unavailable"
+              time:
+                type: string
+                format: date-time
+                example: "2024-10-01T16:06:38.397Z"
 
