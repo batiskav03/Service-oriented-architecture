@@ -1,3 +1,4 @@
+
 services:
   postgres:
     container_name: postgres
@@ -8,3 +9,12 @@ services:
       - ./scripts:/docker-entrypoint-initdb.d
     ports:
       - "5431:5432"
+  mssql:
+    container_name: sql-server
+    image: mcr.microsoft.com/azure-sql-edge
+    #image: mcr.microsoft.com/mssql/server:2017-CU11-ubuntu
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Contraseña12345678"
+    ports:
+      - 1433:1433
