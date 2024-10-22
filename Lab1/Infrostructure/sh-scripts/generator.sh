@@ -1,0 +1,2 @@
+openapi-generator-cli generate -i ../../openapi/HRService.yaml -g jaxrs-resteasy -o ../../HR-Service/src/gen-src
+openapi-generator-cli generate -i ../../openapi/WorkerService.yml -g spring -o ../../WorkerService/src/gen-src
