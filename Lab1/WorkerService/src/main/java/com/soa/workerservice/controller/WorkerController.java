@@ -20,14 +20,6 @@ public class WorkerController {
     //todo: 500 & 503 response
     @GetMapping("/worker/get/{id}")
     public MessageResponse getWorker(@PathVariable String id) {
-        if (id == null) {
-            return MessageResponse.builder()
-                    .date(new Date())
-                    .code(400)
-                    .message("Invalid parameters supplied," +
-                            "\nplease enter worker id")
-                    .build();
-        }
         UUID uuid;
         try {
             uuid = UUID.fromString(id);
