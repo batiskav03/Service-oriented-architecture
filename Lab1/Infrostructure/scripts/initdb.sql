@@ -1,13 +1,13 @@
 create table coordinates
 (
-    coordinates_uuid UUID PRIMARY KEY,
+    id UUID PRIMARY KEY,
     x BIGINT,
     y INT
 );
 
 create table persons
 (
-    person_uuid UUID PRIMARY KEY,
+    id UUID PRIMARY KEY,
     birthday DATE,
     passport_uuid UUID,
     hairColor TEXT,
@@ -16,7 +16,7 @@ create table persons
 
 create table locations
 (
-    location_uuid UUID PRIMARY KEY,
+    id UUID PRIMARY KEY,
     x BIGINT,
     y FLOAT,
     z FLOAT,
@@ -25,14 +25,14 @@ create table locations
 
 create table users
 (
-    user_uuid UUID PRIMARY KEY,
+    id UUID PRIMARY KEY,
     name TEXT,
-    coordinates UUID REFERENCES coordinates (coordinates_uuid),
+    coordinates UUID REFERENCES coordinates (id),
     creationTime DATE,
     salary INT,
     startDate DATE,
     status TEXT,
-    person UUID REFERENCES persons (person_uuid)
+    person UUID REFERENCES persons (id)
 );
 
 
