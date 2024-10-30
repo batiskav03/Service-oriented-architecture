@@ -5,6 +5,8 @@ import com.soa.workerservice.model.Worker;
 import com.soa.workerservice.model.responses.MessageResponse;
 import com.soa.workerservice.model.responses.WorkerResponse;
 import com.soa.workerservice.service.WorkerService;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Field;
@@ -107,7 +109,8 @@ public class WorkerController {
                             .code(204)
                             .message("No Content")
                             .build();
-                };
+                }
+                ;
 
             }
 
@@ -143,4 +146,60 @@ public class WorkerController {
 
     }
 
+    @PostMapping("/api/worker/create")
+    public MessageResponse createWorker(@RequestBody Worker worker) {
+        try {
+            boolean created = false;
+            UUID uuid = workerService.createWorker(worker);
+            return MessageResponse.builder()
+                    .date(new Date())
+                    .code(200)
+                    .message("Ok, UUID of created worker is " + uuid.toString())
+                    .build();
+
+        } catch (IllegalArgumentException e) {
+            return MessageResponse.builder()
+                    .date(new Date())
+                    .code(400)
+                    .message("Invalid parameters supplied,\n" +
+                            "id is uncorrected, change id and retry")
+                    .build();
+        }
+    }
+
+    @GetMapping("/api/workers/get")
+    public MessageResponse getAllWorkers(@RequestAttribute String sorting) {
+        return MessageResponse.builder().
+                date(new Date())
+                .code(200)
+                .message("Ok")
+                .build();
+        //TODO: Add logic
+    }
+
+    @GetMapping("/api/worker/getUniqPosition")
+    public MessageResponse getUniqWorkersByPosition() {
+        try {
+            List<Worker> workers = workerService.selectUniqWorkerPositions();
+            if (workers.isEmpty()) {
+                return MessageResponse.builder()
+                        .date(new Date())
+                        .code(204)
+                        .message("No Content")
+                        .build();
+            }
+            return MessageResponse.builder().
+                    date(new Date())
+                    .code(200)
+                    .message("Ok, Uniq Workers by positions - " + workers)
+                    .build();
+        } catch (IllegalArgumentException e) {
+            return MessageResponse.builder()
+                    .date(new Date())
+                    .code(400)
+                    .message("Invalid parameters supplied,\n" +
+                            "id is uncorrected, change id and retry")
+                    .build();
+        }
+    }
 }
