@@ -13,7 +13,7 @@ import java.util.UUID;
 @Service
 public class WorkerService {
 
-    WorkerRepository workerRepository;
+    private WorkerRepository workerRepository;
 
     public WorkerService(WorkerRepository workerRepository) {
         this.workerRepository = workerRepository;
