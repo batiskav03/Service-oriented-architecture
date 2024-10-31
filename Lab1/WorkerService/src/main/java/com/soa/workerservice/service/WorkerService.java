@@ -41,9 +41,9 @@ public class WorkerService {
 
     public UUID createWorker(Worker worker){
         try {
-            workerRepository.createWorker(worker);
-            Worker currentWorker = workerRepository.getWorkerByUniqFields(worker);
-            return currentWorker.getId();
+            workerRepository.save(worker);
+            //Worker currentWorker = workerRepository.getWorkerByUniqFields(worker);
+            return UUID.randomUUID();//currentWorker.getId();
         } catch (IllegalArgumentException e) {
             return null;
         }
