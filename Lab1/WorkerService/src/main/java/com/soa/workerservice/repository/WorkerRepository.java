@@ -20,7 +20,7 @@ public interface WorkerRepository extends CrudRepository<Worker, UUID> {
     <T> void updateWorkerFieldById(UUID id, String field, T value);
 
     //TODO: Add all fields
-    @Query("SELECT * FROM useres WHERE name = :#{#worker.name} AND salary = :#{#worker.salary} AND status = :#{worker.status} ")
+    @Query("SELECT * FROM users WHERE name = :#{#worker.name} AND salary = :#{#worker.salary} AND status = :#{worker.status} ")
     Worker getWorkerByUniqFields(@Param("worker") Worker worker);
 
 
