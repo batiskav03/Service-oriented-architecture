@@ -31,8 +31,8 @@ create table worker
     creation_date DATE,
     salary INT,
     start_date DATE,
-    position TEXT,
     status TEXT,
+    position TEXT,
     person_id UUID REFERENCES person (id)
 );
 
