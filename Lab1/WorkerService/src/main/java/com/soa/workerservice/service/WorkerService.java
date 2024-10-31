@@ -4,6 +4,8 @@ import com.soa.workerservice.model.Worker;
 import com.soa.workerservice.repository.WorkerRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Field;
 import java.util.Iterator;
@@ -24,6 +26,7 @@ public class WorkerService {
     }
 
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = { Exception.class })
     public UUID deleteWorker(UUID id) {
         Worker worker = getWorker(id);
         UUID uuid = worker.getId();
@@ -34,22 +37,25 @@ public class WorkerService {
     public <T> UUID updateWorkerField(UUID id, String field, T value){
         Worker worker = getWorker(id);
         UUID uuid = worker.getId();
-        //TODO: add UUID options
-        workerRepository.updateWorkerFieldById(id, field, value);
+//        //TODO: add UUID options
+//        workerRepository.updateWorkerFieldById(id, field, value);
         return uuid;
     }
 
     public UUID createWorker(Worker worker){
-        try {
-            workerRepository.save(worker);
-            //Worker currentWorker = workerRepository.getWorkerByUniqFields(worker);
-            return UUID.randomUUID();//currentWorker.getId();
-        } catch (IllegalArgumentException e) {
-            return null;
-        }
+//        try {
+//            workerRepository.createWorker(worker);
+//            Worker currentWorker = workerRepository.getWorkerByUniqFields(worker);
+//            return currentWorker.getId();
+//        } catch (IllegalArgumentException e) {
+//            return null;
+//        }
+
+        return null;
     }
 
     public List<Worker> selectUniqWorkerPositions(){
-        return workerRepository.getUniqWorkersByPosition();
+//        return workerRepository.getUniqWorkersByPosition();
+        return null;
     }
 }
