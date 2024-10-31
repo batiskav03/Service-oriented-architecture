@@ -20,8 +20,6 @@ public class HRController {
     @DELETE
     @Path("fire/{id}")
     public Response fireWorker(@PathParam("id") String id) {
-        workerRequestService.doQuery();
-        System.out.println(id);
         UUID uuid;
         try {
             uuid = UUID.fromString(id);
@@ -32,6 +30,7 @@ public class HRController {
                             "id is uncorrected, change id and retry x")
                     .build();
         }
+        workerRequestService.fireWorker(uuid);
 //        Worker worker = workerService.getWorker(uuid);
 //        if (worker == null) {
 //            return null;

@@ -9,25 +9,27 @@ import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.hc.core5.http.io.support.ClassicRequestBuilder;
 
 import java.io.IOException;
+import java.util.UUID;
 
 @Singleton
 public class WorkerRequestService {
 
-    public void doQuery() {
+    public String fireWorker(UUID uuid) {
         try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
             ClassicHttpRequest httpGet = ClassicRequestBuilder
-                    .get("http://localhost:8080/worker/get/0b4cd6d5-5a8b-4aa7-8f4a-49b74a733a90")
+                    .delete("http://localhost:8080/worker/delete/" + uuid.toString())
                     .build();
             httpclient.execute(httpGet, response -> {
-                System.out.println(response.getCode() + " " + response.getReasonPhrase());
+                System.out.println(response.toString());
                 final HttpEntity entity1 = response.getEntity();
-                // do something useful with the response body
-                // and ensure it is fully consumed
                 EntityUtils.consume(entity1);
-                return null;
+                return entity1.toString();
             });
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        return "123";
     }
+
 }
