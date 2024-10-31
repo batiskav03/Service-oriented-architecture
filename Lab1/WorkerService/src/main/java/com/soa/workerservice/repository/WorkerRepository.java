@@ -16,6 +16,8 @@ public interface WorkerRepository extends CrudRepository<Worker, UUID> {
 
     void deleteWorkerById(UUID id);
 
+
+
 //    @Modifying
 //    <T> void updateWorkerFieldById(UUID id, String field, T value);
 
@@ -28,4 +30,5 @@ public interface WorkerRepository extends CrudRepository<Worker, UUID> {
 
 //    @Query("SELECT DISTINCT position FROM users")
 //    List<Worker> getUniqWorkersByPosition();
+
 }

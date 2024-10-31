@@ -22,12 +22,18 @@ services:
       SA_PASSWORD: "Contraseña12345678"
     ports:
       - 1433:1433
-  sqlcmd:
-    image: mcr.microsoft.com/mssql-tools:latest
-    command: /opt/mssql_scripts/run-initialization.sh
-    stdin_open: true
-    volumes:
-      - ./mssql_scripts:/opt/mssql_scripts
+
+  backend:
+    container_name: xyu
+    build:
+      context: ../WorkerService
+      dockerfile: Dockerfile
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
+    ports:
+      - '8080:8080'
+    networks:
+      - net
 
 networks:
   net:
