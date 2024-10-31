@@ -1,11 +1,11 @@
-create table coordinates
+create table coordinate
 (
     id UUID PRIMARY KEY,
     x BIGINT,
     y INT
 );
 
-create table persons
+create table person
 (
     id UUID PRIMARY KEY,
     birthday DATE,
@@ -14,7 +14,7 @@ create table persons
     nationality TEXT
 );
 
-create table locations
+create table location
 (
     id UUID PRIMARY KEY,
     x BIGINT,
@@ -23,16 +23,17 @@ create table locations
     name TEXT
 );
 
-create table users
+create table worker
 (
     id UUID PRIMARY KEY,
     name TEXT,
-    coordinates UUID REFERENCES coordinates (id),
-    creationTime DATE,
+    coordinates_id UUID REFERENCES coordinate (id),
+    creation_date DATE,
     salary INT,
-    startDate DATE,
+    start_date DATE,
     status TEXT,
-    person UUID REFERENCES persons (id)
+    position TEXT,
+    person_id UUID REFERENCES person (id)
 );
 
 

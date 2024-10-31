@@ -5,12 +5,16 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
 import java.util.UUID;
 
 @Data
 @Entity
+@Getter
+@Setter
 public class Worker {
     @Id
     private UUID id;
