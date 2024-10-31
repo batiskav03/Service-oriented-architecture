@@ -168,7 +168,7 @@ public class WorkerController {
     }
 
     @GetMapping("/api/workers/get")
-    public MessageResponse getAllWorkers(@RequestAttribute String sorting) {
+    public MessageResponse getAllWorkers(@RequestBody String sorting) {
         return MessageResponse.builder().
                 date(new Date())
                 .code(200)
