@@ -1,12 +1,10 @@
 package com.soa.workerservice.controller;
 
-import com.soa.workerservice.model.Coordinates;
+
 import com.soa.workerservice.model.Worker;
 import com.soa.workerservice.model.responses.MessageResponse;
 import com.soa.workerservice.model.responses.WorkerResponse;
 import com.soa.workerservice.service.WorkerService;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Field;
@@ -110,7 +108,6 @@ public class WorkerController {
                             .message("No Content")
                             .build();
                 }
-                ;
 
             }
 
