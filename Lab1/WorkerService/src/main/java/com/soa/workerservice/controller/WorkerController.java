@@ -23,7 +23,7 @@ public class WorkerController {
     }
 
     //todo: 500 & 503 response
-    @GetMapping("/worker/get/{id}")
+    @GetMapping("api/worker/get/{id}")
     public MessageResponse getWorker(@PathVariable String id) {
         UUID uuid;
         try {
@@ -53,7 +53,7 @@ public class WorkerController {
                 .build();
     }
 
-    @DeleteMapping("/worker/delete/{id}")
+    @DeleteMapping("api/worker/delete/{id}")
     public MessageResponse deleteWorker(@PathVariable String id) {
 
         UUID workerId;
@@ -145,9 +145,10 @@ public class WorkerController {
         }
 
     }
-
+    //todo: sout out
     @PostMapping("/api/worker/create")
     public MessageResponse createWorker(@RequestBody Worker worker) {
+        System.out.println(worker.toString());
         try {
             boolean created = false;
             UUID uuid = workerService.createWorker(worker);

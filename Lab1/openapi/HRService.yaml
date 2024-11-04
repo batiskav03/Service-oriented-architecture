@@ -28,19 +28,12 @@ paths:
           $ref: "./Models.yml#/components/ResponseContent/InitialServerError"
         503:
           $ref: "./Models.yml#/components/ResponseContent/ServerUnavailable"
-  /hire/{person-id}/{org-id}/{position}/{start-date}:
+  /hire/{person-id}/{position}/{start-date}:
     post:
       summary: принять сотрудника на работу
       description: принять сотрудника на работу
       parameters:
         - name: person-id
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-            example: "cb73828b-3b85-4ae8-a875-c67d1bb7ac06"
-        - name: org-id
           in: path
           required: true
           schema:
