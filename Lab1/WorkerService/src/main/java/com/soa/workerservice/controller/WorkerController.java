@@ -56,10 +56,10 @@ public class WorkerController {
     @DeleteMapping("/worker/delete/{id}")
     public MessageResponse deleteWorker(@PathVariable String id) {
 
-        UUID uuid;
+        UUID workerId;
 
         try {
-            UUID workerId = workerService.deleteWorker(UUID.fromString(id));
+            workerId = workerService.deleteWorker(UUID.fromString(id));
             if (workerId == null) {
                 return MessageResponse.builder()
                         .date(new Date())
@@ -67,10 +67,10 @@ public class WorkerController {
                         .message("Resource not found")
                         .build();
             }
-            return WorkerResponse.builder()
+            return MessageResponse.builder()
                     .date(new Date())
                     .code(200)
-                    .message("Ok")
+                    .message("Ok, fired worker id is: " + workerId)
                     .build();
 
         } catch (IllegalArgumentException e) {

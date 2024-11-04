@@ -30,12 +30,15 @@ public class HRController {
                             "id is uncorrected, change id and retry x")
                     .build();
         }
-        workerRequestService.fireWorker(uuid);
+        String out = workerRequestService.fireWorker(uuid);
 //        Worker worker = workerService.getWorker(uuid);
 //        if (worker == null) {
 //            return null;
 //        }
-        return Response.ok().build();
+        return Response
+                .ok()
+                .entity(out)
+                .build();
     }
 
 }
