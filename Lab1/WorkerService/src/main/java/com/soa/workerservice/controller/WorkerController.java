@@ -1,12 +1,10 @@
 package com.soa.workerservice.controller;
 
-import com.soa.workerservice.model.Coordinates;
+
 import com.soa.workerservice.model.Worker;
 import com.soa.workerservice.model.responses.MessageResponse;
 import com.soa.workerservice.model.responses.WorkerResponse;
 import com.soa.workerservice.service.WorkerService;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Field;
@@ -23,7 +21,7 @@ public class WorkerController {
     }
 
     //todo: 500 & 503 response
-    @GetMapping("/worker/get/{id}")
+    @GetMapping("api/worker/get/{id}")
     public MessageResponse getWorker(@PathVariable String id) {
         UUID uuid;
         try {
@@ -53,13 +51,13 @@ public class WorkerController {
                 .build();
     }
 
-    @DeleteMapping("/worker/delete/{id}")
+    @DeleteMapping("api/worker/delete/{id}")
     public MessageResponse deleteWorker(@PathVariable String id) {
 
-        UUID uuid;
+        UUID workerId;
 
         try {
-            UUID workerId = workerService.deleteWorker(UUID.fromString(id));
+            workerId = workerService.deleteWorker(UUID.fromString(id));
             if (workerId == null) {
                 return MessageResponse.builder()
                         .date(new Date())
@@ -67,10 +65,10 @@ public class WorkerController {
                         .message("Resource not found")
                         .build();
             }
-            return WorkerResponse.builder()
+            return MessageResponse.builder()
                     .date(new Date())
                     .code(200)
-                    .message("Ok")
+                    .message("Ok, fired worker id is: " + workerId)
                     .build();
 
         } catch (IllegalArgumentException e) {
@@ -113,7 +111,6 @@ public class WorkerController {
                             .build();
                 }
                 workerService.updateWorkerField(id, field, value);
-
             }
 
             Worker updatedWorker = workerService.getWorker(id);
@@ -150,9 +147,10 @@ public class WorkerController {
         }
 
     }
-
+    //todo: sout out
     @PostMapping("/api/worker/create")
     public MessageResponse createWorker(@RequestBody Worker worker) {
+        System.out.println(worker.toString());
         try {
             boolean created = false;
             UUID uuid = workerService.createWorker(worker);
