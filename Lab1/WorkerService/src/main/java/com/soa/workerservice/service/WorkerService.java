@@ -58,7 +58,7 @@ public class WorkerService {
         return null;
     }
 
-    public Iterable<Worker> selectUniqWorkerPositions(){
+    public List<Worker> selectUniqWorkerPositions(){
         Iterable<Worker> workers = workerRepository.findAll();
         return StreamSupport.stream(workers.spliterator(), false)
                 .collect(Collectors.toMap(

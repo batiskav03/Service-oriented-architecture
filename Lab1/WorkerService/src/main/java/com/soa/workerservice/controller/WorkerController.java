@@ -183,7 +183,7 @@ public class WorkerController {
     @GetMapping("/api/worker/getUniqPosition")
     public MessageResponse getUniqWorkersByPosition() {
         try {
-            Iterable<Worker> workers = workerService.selectUniqWorkerPositions();
+            List<Worker> workers = workerService.selectUniqWorkerPositions();
             if (workers == null) {
                 return MessageResponse.builder()
                         .date(new Date())

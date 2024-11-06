@@ -51,7 +51,7 @@ public class WorkerRequestService {
     }
 
     private String getMessageFromResponse(CloseableHttpClient httpClient, ClassicHttpRequest httpRequest) throws IOException {
-        String out = httpClient.execute(httpRequest, response -> {
+        return httpClient.execute(httpRequest, response -> {
             final HttpEntity entity = response.getEntity();
             BufferedReader br = new BufferedReader(
                     new InputStreamReader((response.getEntity().getContent())));
@@ -62,7 +62,6 @@ public class WorkerRequestService {
             EntityUtils.consume(entity);
             return output;
         });
-        return out;
     }
 
 }
