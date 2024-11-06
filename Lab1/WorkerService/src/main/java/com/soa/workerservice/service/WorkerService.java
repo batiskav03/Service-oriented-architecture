@@ -1,6 +1,7 @@
 package com.soa.workerservice.service;
 
 import com.soa.workerservice.model.Worker;
+import com.soa.workerservice.repository.Impl.WorkerCustomRepositoryImpl;
 import com.soa.workerservice.repository.WorkerRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
@@ -11,14 +12,18 @@ import java.lang.reflect.Field;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 public class WorkerService {
 
-    private WorkerRepository workerRepository;
+    private final WorkerRepository workerRepository;
+    private final WorkerCustomRepositoryImpl workerCustomRepository;
 
-    public WorkerService(WorkerRepository workerRepository) {
+    public WorkerService(WorkerRepository workerRepository, WorkerCustomRepositoryImpl workerCustomRepository) {
         this.workerRepository = workerRepository;
+        this.workerCustomRepository = workerCustomRepository;
     }
 
     public Worker getWorker(UUID id) {
@@ -37,8 +42,7 @@ public class WorkerService {
     public <T> UUID updateWorkerField(UUID id, String field, T value){
         Worker worker = getWorker(id);
         UUID uuid = worker.getId();
-//        //TODO: add UUID options
-//        workerRepository.updateWorkerFieldById(id, field, value);
+        workerCustomRepository.updateWorkerFieldById(id, field, value);
         return uuid;
     }
 
@@ -54,8 +58,17 @@ public class WorkerService {
         return null;
     }
 
-    public List<Worker> selectUniqWorkerPositions(){
-//        return workerRepository.getUniqWorkersByPosition();
-        return null;
+    public Iterable<Worker> selectUniqWorkerPositions(){
+        Iterable<Worker> workers = workerRepository.findAll();
+        return StreamSupport.stream(workers.spliterator(), false)
+                .collect(Collectors.toMap(
+                        Worker::getPosition,
+                        worker -> worker,
+                        (existing, replacement) -> existing
+                ))
+                .values()
+                .stream()
+                .toList();
+
     }
 }

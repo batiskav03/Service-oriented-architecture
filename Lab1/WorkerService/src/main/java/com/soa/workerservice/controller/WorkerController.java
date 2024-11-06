@@ -83,8 +83,9 @@ public class WorkerController {
         }
     }
 
+
     @PatchMapping("/api/worker/update/{id}")
-    public MessageResponse updateWorker(@PathVariable UUID id, @RequestBody Map<String, String> worker) {
+    public MessageResponse updateWorker(@PathVariable UUID id, @RequestBody Map<String, Object> worker) {
 
         try {
             boolean modified = false;
@@ -99,10 +100,11 @@ public class WorkerController {
             }
 
             ArrayList<String> modifiedFieldsName = new ArrayList<>();
-            ArrayList<Field> oldFields = new ArrayList<>(List.of(oldWorker.getClass().getFields()));
+            ArrayList<Field> oldFields = new ArrayList<>(List.of(oldWorker.getClass().getDeclaredFields()));
             for (String field : worker.keySet()) {
                 var value = worker.getOrDefault(field, EMPTY_VALUE_CONSTANT);
                 if (value.equals(EMPTY_VALUE_CONSTANT)) continue;
+                if (field.equals("id")) continue;
                 if (workerService.updateWorkerField(id, field, value) == null) {
                     return MessageResponse.builder()
                             .date(new Date())
@@ -110,13 +112,16 @@ public class WorkerController {
                             .message("No Content")
                             .build();
                 }
-                ;
+                workerService.updateWorkerField(id, field, value);
 
             }
 
             Worker updatedWorker = workerService.getWorker(id);
-            ArrayList<Field> updatedFields = new ArrayList<>(List.of(updatedWorker.getClass().getFields()));
+            ArrayList<Field> updatedFields = new ArrayList<>(List.of(updatedWorker.getClass().getDeclaredFields()));
             for (Field oldField : oldFields) {
+                if (oldField.getName().equals("id")){
+                    continue;
+                }
                 if (!oldField.equals(updatedFields.get(oldFields.indexOf(oldField)))) {
                     modified = true;
                     modifiedFieldsName.add(oldField.getName());
@@ -180,8 +185,8 @@ public class WorkerController {
     @GetMapping("/api/worker/getUniqPosition")
     public MessageResponse getUniqWorkersByPosition() {
         try {
-            List<Worker> workers = workerService.selectUniqWorkerPositions();
-            if (workers.isEmpty()) {
+            Iterable<Worker> workers = workerService.selectUniqWorkerPositions();
+            if (workers == null) {
                 return MessageResponse.builder()
                         .date(new Date())
                         .code(204)

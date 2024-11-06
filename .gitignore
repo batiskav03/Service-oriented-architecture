@@ -1,7 +1,7 @@
 */.idea
 .idea
-./Lab1/HR-Service/target
-./Lab1/WorkerService/target
+./Lab1/HR-Service/target/
+./Lab1/WorkerService/target/
 ./.gitignore
 payara-micro-6.2024.10.jar
 ./payara-micro-6.2024.10.jar

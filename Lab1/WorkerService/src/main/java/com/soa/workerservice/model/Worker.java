@@ -1,9 +1,6 @@
 package com.soa.workerservice.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,8 +21,10 @@ public class Worker {
     private Date creationDate;
     private Long salary;
     private Date startDate;
-    private Position position;
+    @Enumerated(EnumType.STRING)
     private Status status;
+    @Enumerated(EnumType.STRING)
+    private Position position;
     @OneToOne
     private Person person;
 
