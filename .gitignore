@@ -4,4 +4,5 @@
 ./Lab1/WorkerService/target/
 ./.gitignore
 payara-micro.jar
-payara-micro.jar
+payara-micro-6.2024.10.jar
+payara-micro-7.2024.1.Alpha1.jar
