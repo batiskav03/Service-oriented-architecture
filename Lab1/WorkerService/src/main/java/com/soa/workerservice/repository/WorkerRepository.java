@@ -16,9 +16,12 @@ public interface WorkerRepository extends CrudRepository<Worker, UUID> {
 
     void deleteWorkerById(UUID id);
 
+    //Worker createWorker(UUID id, String name,)
+
     //TODO: Add all fields
 //    @Query("SELECT * FROM users WHERE name = :#{#worker.name} AND salary = :#{#worker.salary} AND status = :#{worker.status} ")
 //    Worker getWorkerByUniqFields(@Param("worker") Worker worker);
+
 
 
 

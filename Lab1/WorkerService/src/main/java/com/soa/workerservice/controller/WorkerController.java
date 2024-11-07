@@ -1,6 +1,7 @@
 package com.soa.workerservice.controller;
 
 
+import com.soa.workerservice.model.UpdateDetails;
 import com.soa.workerservice.model.Worker;
 import com.soa.workerservice.model.responses.MessageResponse;
 import com.soa.workerservice.model.responses.WorkerResponse;
@@ -83,12 +84,16 @@ public class WorkerController {
 
 
     @PatchMapping("/api/worker/update/{id}")
-    public MessageResponse updateWorker(@PathVariable UUID id, @RequestBody Map<String, Object> worker) {
+    public <T> MessageResponse updateWorker(@PathVariable UUID id, @RequestBody UpdateDetails updateDetails) {
 
         try {
             boolean modified = false;
+            String field = updateDetails.getField();
+            Object value = updateDetails.getValue();
             Worker oldWorker = workerService.getWorker(id);
-
+            Field current_field = oldWorker.getClass().getDeclaredField(field);
+            current_field.setAccessible(true);
+            Object current_value = current_field.get(oldWorker);
             if (oldWorker == null) {
                 return MessageResponse.builder()
                         .date(new Date())
@@ -96,48 +101,20 @@ public class WorkerController {
                         .message("Worker not found")
                         .build();
             }
-
-            ArrayList<String> modifiedFieldsName = new ArrayList<>();
-            ArrayList<Field> oldFields = new ArrayList<>(List.of(oldWorker.getClass().getDeclaredFields()));
-            for (String field : worker.keySet()) {
-                var value = worker.getOrDefault(field, EMPTY_VALUE_CONSTANT);
-                if (value.equals(EMPTY_VALUE_CONSTANT)) continue;
-                if (field.equals("id")) continue;
-                if (workerService.updateWorkerField(id, field, value) == null) {
-                    return MessageResponse.builder()
-                            .date(new Date())
-                            .code(204)
-                            .message("No Content")
-                            .build();
-                }
-                workerService.updateWorkerField(id, field, value);
-            }
-
-            Worker updatedWorker = workerService.getWorker(id);
-            ArrayList<Field> updatedFields = new ArrayList<>(List.of(updatedWorker.getClass().getDeclaredFields()));
-            for (Field oldField : oldFields) {
-                if (oldField.getName().equals("id")){
-                    continue;
-                }
-                if (!oldField.equals(updatedFields.get(oldFields.indexOf(oldField)))) {
-                    modified = true;
-                    modifiedFieldsName.add(oldField.getName());
-                }
-            }
-
-            if (modified) {
-                return WorkerResponse.builder()
+            workerService.updateWorkerField(id, field, value);
+            if (current_value.equals(value)){
+                return MessageResponse.builder()
                         .date(new Date())
-                        .code(200)
-                        .message("Ok. Modified fields: " + modifiedFieldsName)
+                        .code(304)
+                        .message("Business no modified don't disturb")
                         .build();
             }
-            return WorkerResponse.builder()
+            return MessageResponse.builder()
                     .date(new Date())
-                    .code(304)
-                    .message("Business no modified don't disturb")
+                    .code(200)
+                    .message("Ok, UUID of updated worker is " + id.toString())
                     .build();
-        } catch (IllegalArgumentException e) {
+        } catch (NoSuchFieldException | IllegalAccessException | IllegalArgumentException e) {
             return MessageResponse.builder()
                     .date(new Date())
                     .code(400)
@@ -147,10 +124,8 @@ public class WorkerController {
         }
 
     }
-    //todo: sout out
     @PostMapping("/api/worker/create")
     public MessageResponse createWorker(@RequestBody Worker worker) {
-        System.out.println(worker.toString());
         try {
             boolean created = false;
             UUID uuid = workerService.createWorker(worker);

@@ -47,15 +47,11 @@ public class WorkerService {
     }
 
     public UUID createWorker(Worker worker){
-//        try {
-//            workerRepository.createWorker(worker);
-//            Worker currentWorker = workerRepository.getWorkerByUniqFields(worker);
-//            return currentWorker.getId();
-//        } catch (IllegalArgumentException e) {
-//            return null;
-//        }
-
-        return null;
+        try {
+            return workerCustomRepository.createWorker(worker);
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
     }
 
     public List<Worker> selectUniqWorkerPositions(){

@@ -7,4 +7,7 @@ import java.util.UUID;
 
 public interface WorkerCustomRepository extends CrudRepository<Worker, UUID> {
     <T> void updateWorkerFieldById(UUID id, String field, T value);
+
+    UUID createWorker(Worker worker);
+
 }

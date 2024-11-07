@@ -1,4 +1,4 @@
-create table coordinate
+create table coordinates
 (
     id UUID PRIMARY KEY,
     x BIGINT,
@@ -27,7 +27,7 @@ create table worker
 (
     id UUID PRIMARY KEY,
     name TEXT,
-    coordinates_id UUID REFERENCES coordinate (id),
+    coordinates_id UUID REFERENCES coordinates (id),
     creation_date DATE,
     salary INT,
     start_date DATE,
