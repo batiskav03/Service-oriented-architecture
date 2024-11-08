@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import "98.css";
 
 import HrServiceWindow from "./components/HrServiceWindow";
+import WorkerService from "./components/WorkerService";
 
 
 
@@ -11,6 +12,7 @@ function App() {
     return (
         <div className="App">
             <HrServiceWindow />
+            <WorkerService />
         </div>
     );
 }

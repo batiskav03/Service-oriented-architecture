@@ -17,8 +17,9 @@ public interface WorkerRepository extends CrudRepository<Worker, UUID>, JpaSpeci
 
     Worker getWorkerById(UUID id);
 
-
-    void deleteWorkerById(UUID id);
+    @Query(value = "DELETE FROM worker WHERE id = :id", nativeQuery = true)
+    @Modifying
+    void deleteWorkerById(@Param("id") UUID id);
 
 
     //Worker createWorker(UUID id, String name,)

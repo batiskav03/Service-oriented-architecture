@@ -12,8 +12,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
-@SecondaryTable(name = "coordinates", pkJoinColumns = @PrimaryKeyJoinColumn(name = "coordinates_id"))
-@SecondaryTable(name = "person", pkJoinColumns = @PrimaryKeyJoinColumn(name = "person_id"))
+
 public class Worker {
     @Id
     private UUID id;
