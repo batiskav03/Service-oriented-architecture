@@ -2,21 +2,20 @@ import React, {useState, useRef} from 'react';
 import '98.css';
 
 const WorkerService = () => {
-    const [workerId, setWorkerId] = useState(''); // ID работника
-    const [worker, setWorker] = useState(null); // Данные о работнике
-    const [field, setField] = useState(''); // Поле для обновления
-    const [value, setValue] = useState(''); // Значение для обновления
-    const [errorMessage, setErrorMessage] = useState(''); // Сообщение об ошибке
-    const [isLoading, setIsLoading] = useState(false); // Статус загрузки
-    const [isModalOpen, setIsModalOpen] = useState(false); // Состояние для модального окна
-    const [mode, setMode] = useState(null); // Выбор режима (получить информацию, удалить или обновить)
-    const [successMessage, setSuccessMessage] = useState(''); // Сообщение об успешном удалении работника
+    const [workerId, setWorkerId] = useState('');
+    const [worker, setWorker] = useState(null);
+    const [field, setField] = useState('');
+    const [value, setValue] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [mode, setMode] = useState(null);
+    const [successMessage, setSuccessMessage] = useState('');
 
-    // Состояния для перетаскивания иконки
     const [iconPosition, setIconPosition] = useState({x: 20, y: 20});
     const [dragging, setDragging] = useState(false);
-    const iconRef = useRef(null); // Ссылка на иконку
-    const windowRef = useRef(null); // Ссылка на окно
+    const iconRef = useRef(null);
+    const windowRef = useRef(null);
 
     const [workerData, setWorkerData] = useState({
         name: '',
@@ -34,7 +33,7 @@ const WorkerService = () => {
         },
     });
 
-    // Перетаскивание иконки
+
     const startDrag = (e) => {
         setDragging(true);
         e.preventDefault();
@@ -104,7 +103,7 @@ const WorkerService = () => {
         }
 
         setIsLoading(true);
-        setErrorMessage(''); // Очищаем старое сообщение об ошибке
+        setErrorMessage('');
 
         try {
             const response = await fetch(`http://localhost:8080/api/worker/get/${workerId}`);
@@ -126,7 +125,7 @@ const WorkerService = () => {
         setIsLoading(false);
     };
 
-    // Функция для обработки удаления работника
+
     const handleDeleteWorker = async () => {
         if (!workerId) {
             setErrorMessage('Пожалуйста, введите ID работника для удаления.');
@@ -134,8 +133,8 @@ const WorkerService = () => {
         }
 
         setIsLoading(true);
-        setErrorMessage(''); // Очищаем старое сообщение об ошибке
-        setSuccessMessage(''); // Очищаем старое сообщение об успешном удалении
+        setErrorMessage('');
+        setSuccessMessage('');
 
         try {
             const response = await fetch(`http://localhost:8080/api/worker/delete/${workerId}`, {
@@ -158,7 +157,6 @@ const WorkerService = () => {
         setIsLoading(false);
     };
 
-    // Функция для обработки обновления данных работника
     const handleUpdateWorker = async () => {
         if (!workerId || !field || !value) {
             setErrorMessage('Пожалуйста, введите все данные для обновления.');
@@ -166,8 +164,8 @@ const WorkerService = () => {
         }
 
         setIsLoading(true);
-        setErrorMessage(''); // Очищаем старое сообщение об ошибке
-        setSuccessMessage(''); // Очищаем старое сообщение об успешном обновлении
+        setErrorMessage('');
+        setSuccessMessage('');
 
         try {
             const updateDetails = {
@@ -198,18 +196,16 @@ const WorkerService = () => {
         setIsLoading(false);
     };
 
-    // Открытие и закрытие модального окна
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
 
-    // Закрытие окна с информацией о работнике
     const closeWorkerInfoWindow = () => setMode(null);
 
     return (
         <div style={{backgroundImage: 'url(/Win98-Desk.png)', backgroundSize: 'cover', height: '100vh'}}
              onMouseMove={onDrag}>
 
-            {/* Иконка с перетаскиванием */}
+
             <div
                 ref={iconRef}
                 onClick={openModal}
@@ -234,7 +230,7 @@ const WorkerService = () => {
                         width: '32px',
                         height: '32px',
                         border: '1px solid #000',
-                        backgroundColor: 'transparent', // Убираем фон
+                        backgroundColor: 'transparent',
                         borderRadius: '4px',
                         padding: '4px',
                         boxShadow: '2px 2px 5px rgba(0, 0, 0, 0.5)',
@@ -243,7 +239,6 @@ const WorkerService = () => {
                 <div>Worker Service</div>
             </div>
 
-            {/* Модальное окно для выбора режима */}
             {isModalOpen && (
                 <div
                     className="window"
@@ -268,8 +263,8 @@ const WorkerService = () => {
                         <div className="button-group">
                             <button
                                 onClick={() => {
-                                    setMode('getWorker'); // Устанавливаем режим получения информации
-                                    closeModal(); // Закрываем окно выбора режима
+                                    setMode('getWorker');
+                                    closeModal();
                                 }}
                                 className="button"
                                 style={{width: '100%', marginBottom: '10px'}}
@@ -278,8 +273,8 @@ const WorkerService = () => {
                             </button>
                             <button
                                 onClick={() => {
-                                    setMode('deleteWorker'); // Устанавливаем режим удаления работника
-                                    closeModal(); // Закрываем окно выбора режима
+                                    setMode('deleteWorker');
+                                    closeModal();
                                 }}
                                 className="button"
                                 style={{width: '100%', marginBottom: '10px'}}
@@ -288,8 +283,8 @@ const WorkerService = () => {
                             </button>
                             <button
                                 onClick={() => {
-                                    setMode('updateWorker'); // Устанавливаем режим обновления
-                                    closeModal(); // Закрываем окно выбора режима
+                                    setMode('updateWorker');
+                                    closeModal();
                                 }}
                                 className="button"
                                 style={{width: '100%', marginBottom: '10px'}}
@@ -299,7 +294,7 @@ const WorkerService = () => {
                             <button
                                 onClick={() => {
                                     setMode('createWorker');
-                                    closeModal(); // Закрываем окно выбора режима
+                                    closeModal();
                                 }}
                                 className="button"
                                 style={{width: '100%', marginBottom: '10px'}}
@@ -310,8 +305,6 @@ const WorkerService = () => {
                     </div>
                 </div>
             )}
-
-            {/* Окно с информацией о работнике */}
             {mode === 'getWorker' && (
                 <div
                     className="window"
@@ -370,7 +363,6 @@ const WorkerService = () => {
                 </div>
             )}
 
-            {/* Окно для удаления работника */}
             {mode === 'deleteWorker' && (
                 <div
                     className="window"
@@ -428,7 +420,6 @@ const WorkerService = () => {
                 </div>
             )}
 
-            {/* Окно для обновления данных работника */}
             {mode === 'updateWorker' && (
                 <div
                     className="window"
