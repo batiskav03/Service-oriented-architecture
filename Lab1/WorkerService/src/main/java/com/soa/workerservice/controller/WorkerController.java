@@ -1,11 +1,14 @@
 package com.soa.workerservice.controller;
 
 
-import com.soa.workerservice.model.UpdateDetails;
+import com.soa.workerservice.model.request.PageableAndSortingRequest;
+import com.soa.workerservice.model.request.UpdateDetailsRequest;
 import com.soa.workerservice.model.Worker;
+import com.soa.workerservice.model.responses.PageResponse;
 import com.soa.workerservice.model.responses.MessageResponse;
 import com.soa.workerservice.model.responses.WorkerResponse;
 import com.soa.workerservice.service.WorkerService;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Field;
@@ -84,12 +87,12 @@ public class WorkerController {
 
 
     @PatchMapping("/api/worker/update/{id}")
-    public <T> MessageResponse updateWorker(@PathVariable UUID id, @RequestBody UpdateDetails updateDetails) {
+    public <T> MessageResponse updateWorker(@PathVariable UUID id, @RequestBody UpdateDetailsRequest<T> updateDetailsRequest) {
 
         try {
             boolean modified = false;
-            String field = updateDetails.getField();
-            Object value = updateDetails.getValue();
+            String field = updateDetailsRequest.getField();
+            Object value = updateDetailsRequest.getValue();
             Worker oldWorker = workerService.getWorker(id);
             Field current_field = oldWorker.getClass().getDeclaredField(field);
             current_field.setAccessible(true);
@@ -146,12 +149,9 @@ public class WorkerController {
     }
 
     @GetMapping("/api/workers/get")
-    public MessageResponse getAllWorkers(@RequestBody String sorting) {
-        return MessageResponse.builder().
-                date(new Date())
-                .code(200)
-                .message("Ok")
-                .build();
+    public MessageResponse getAllWorkers(@RequestBody PageableAndSortingRequest request) {
+        Page<Worker> result = workerService.getAllWorkers(request.getSorting(), request.getFilter(), request.getPage(), request.getPageSize());
+        return new PageResponse<>(200, new Date(), "Ok", result);
         //TODO: Add logic
     }
 

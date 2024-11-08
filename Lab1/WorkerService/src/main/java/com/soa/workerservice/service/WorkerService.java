@@ -1,8 +1,15 @@
 package com.soa.workerservice.service;
 
+import com.soa.workerservice.model.SearchCriteria;
 import com.soa.workerservice.model.Worker;
+import com.soa.workerservice.model.WorkerSpecification;
 import com.soa.workerservice.repository.Impl.WorkerCustomRepositoryImpl;
 import com.soa.workerservice.repository.WorkerRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -12,6 +19,7 @@ import java.lang.reflect.Field;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Filter;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -52,6 +60,13 @@ public class WorkerService {
         } catch (IllegalArgumentException e) {
             return null;
         }
+    }
+
+    public Page<Worker> getAllWorkers(String sort, SearchCriteria filter, Integer page, Integer size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, sort));
+        Specification<Worker> spec = new WorkerSpecification(filter);
+        return workerRepository.findAll(spec, pageable);
+//        return workerRepository.findAll(Sort.by(Sort.Direction.ASC, sort));
     }
 
     public List<Worker> selectUniqWorkerPositions(){
