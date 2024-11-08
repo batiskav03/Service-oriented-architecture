@@ -4,10 +4,12 @@ import '98.css';
 const WorkerService = () => {
     const [workerId, setWorkerId] = useState(''); // ID работника
     const [worker, setWorker] = useState(null); // Данные о работнике
+    const [field, setField] = useState(''); // Поле для обновления
+    const [value, setValue] = useState(''); // Значение для обновления
     const [errorMessage, setErrorMessage] = useState(''); // Сообщение об ошибке
     const [isLoading, setIsLoading] = useState(false); // Статус загрузки
     const [isModalOpen, setIsModalOpen] = useState(false); // Состояние для модального окна
-    const [mode, setMode] = useState(null); // Выбор режима (получить информацию или удалить)
+    const [mode, setMode] = useState(null); // Выбор режима (получить информацию, удалить или обновить)
     const [successMessage, setSuccessMessage] = useState(''); // Сообщение об успешном удалении работника
 
     // Состояния для перетаскивания иконки
@@ -89,6 +91,46 @@ const WorkerService = () => {
                 setErrorMessage('');
                 setWorker(null);
                 setSuccessMessage(`Работник с ID ${workerId} был удален.`);
+            }
+        } catch (error) {
+            setErrorMessage('Ошибка соединения: ' + error.message);
+        }
+
+        setIsLoading(false);
+    };
+
+    // Функция для обработки обновления данных работника
+    const handleUpdateWorker = async () => {
+        if (!workerId || !field || !value) {
+            setErrorMessage('Пожалуйста, введите все данные для обновления.');
+            return;
+        }
+
+        setIsLoading(true);
+        setErrorMessage(''); // Очищаем старое сообщение об ошибке
+        setSuccessMessage(''); // Очищаем старое сообщение об успешном обновлении
+
+        try {
+            const updateDetails = {
+                field,
+                value,
+            };
+
+            const response = await fetch(`http://localhost:8080/api/worker/update/${workerId}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updateDetails),
+            });
+
+            if (!response.ok) {
+                const result = await response.json();
+                setErrorMessage(result.message || 'Не удалось обновить данные работника.');
+            } else {
+                const result = await response.json();
+                setErrorMessage('');
+                setSuccessMessage(`Данные работника с ID ${workerId} были обновлены.`);
             }
         } catch (error) {
             setErrorMessage('Ошибка соединения: ' + error.message);
@@ -183,6 +225,16 @@ const WorkerService = () => {
                         >
                             Удалить работника
                         </button>
+                        <button
+                            onClick={() => {
+                                setMode('updateWorker'); // Устанавливаем режим обновления
+                                closeModal(); // Закрываем окно выбора режима
+                            }}
+                            className="button"
+                            style={{ width: '100%', marginBottom: '10px' }}
+                        >
+                            Обновить данные работника
+                        </button>
                     </div>
                 </div>
             )}
@@ -203,7 +255,7 @@ const WorkerService = () => {
                     }}
                 >
                     <div className="title-bar">
-                        <div className="title-bar-text">Worker Information Service</div>
+                        <div className="title-bar-text">Информация о работнике</div>
                         <div className="title-bar-controls">
                             <button aria-label="Close" onClick={closeWorkerInfoWindow}></button>
                         </div>
@@ -236,13 +288,10 @@ const WorkerService = () => {
                             </div>
                         )}
 
-                        {worker && !errorMessage && (
-                            <div style={{ marginTop: '20px' }}>
-                                <h3>Информация о работнике:</h3>
-                                <p><strong>ID:</strong> {worker.id}</p>
-                                <p><strong>Имя:</strong> {worker.name}</p>
-                                <p><strong>Должность:</strong> {worker.position}</p>
-                                <p><strong>Дата начала работы:</strong> {worker.startDate}</p>
+                        {worker && (
+                            <div style={{ marginTop: '10px' }}>
+                                <h3>Информация о работнике</h3>
+                                <pre>{JSON.stringify(worker, null, 2)}</pre>
                             </div>
                         )}
                     </div>
@@ -288,6 +337,86 @@ const WorkerService = () => {
                             style={{ width: '100%', marginBottom: '10px' }}
                         >
                             Удалить работника
+                        </button>
+
+                        {isLoading && <p>Загрузка...</p>}
+
+                        {errorMessage && (
+                            <div style={{ color: 'red', marginTop: '10px' }}>
+                                <p>{errorMessage}</p>
+                            </div>
+                        )}
+
+                        {successMessage && (
+                            <div style={{ color: 'green', marginTop: '10px' }}>
+                                <p>{successMessage}</p>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
+
+            {/* Окно для обновления данных работника */}
+            {mode === 'updateWorker' && (
+                <div
+                    className="window"
+                    style={{
+                        position: 'absolute',
+                        top: '180px',
+                        left: '20px',
+                        maxWidth: '400px',
+                        padding: '10px',
+                        zIndex: 10,
+                        background: 'white',
+                        borderRadius: '5px',
+                    }}
+                >
+                    <div className="title-bar">
+                        <div className="title-bar-text">Обновить данные работника</div>
+                        <div className="title-bar-controls">
+                            <button aria-label="Close" onClick={closeWorkerInfoWindow}></button>
+                        </div>
+                    </div>
+                    <div className="window-body">
+                        <div>
+                            <label>Введите ID работника:</label>
+                            <input
+                                type="text"
+                                value={workerId}
+                                onChange={(e) => setWorkerId(e.target.value)}
+                                className="input"
+                                placeholder="Введите ID"
+                                style={{ width: '100%', marginBottom: '10px' }}
+                            />
+                        </div>
+                        <div>
+                            <label>Поле для обновления:</label>
+                            <input
+                                type="text"
+                                value={field}
+                                onChange={(e) => setField(e.target.value)}
+                                className="input"
+                                placeholder="Поле"
+                                style={{ width: '100%', marginBottom: '10px' }}
+                            />
+                        </div>
+                        <div>
+                            <label>Новое значение:</label>
+                            <input
+                                type="text"
+                                value={value}
+                                onChange={(e) => setValue(e.target.value)}
+                                className="input"
+                                placeholder="Значение"
+                                style={{ width: '100%', marginBottom: '10px' }}
+                            />
+                        </div>
+                        <button
+                            onClick={handleUpdateWorker}
+                            className="button"
+                            style={{ width: '100%', marginBottom: '10px' }}
+                        >
+                            Обновить данные
                         </button>
 
                         {isLoading && <p>Загрузка...</p>}

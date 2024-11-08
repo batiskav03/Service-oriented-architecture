@@ -103,12 +103,14 @@ public class WorkerController {
                         .build();
             }
             workerService.updateWorkerField(id, field, value);
-            if (current_value.equals(value)){
-                return MessageResponse.builder()
-                        .date(new Date())
-                        .code(304)
-                        .message("Business no modified don't disturb")
-                        .build();
+            if (current_value != null) {
+                if (current_value.equals(value)) {
+                    return MessageResponse.builder()
+                            .date(new Date())
+                            .code(304)
+                            .message("Business no modified don't disturb")
+                            .build();
+                }
             }
             return MessageResponse.builder()
                     .date(new Date())
