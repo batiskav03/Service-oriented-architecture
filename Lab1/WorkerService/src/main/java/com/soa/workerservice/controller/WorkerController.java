@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.lang.reflect.Field;
 import java.util.*;
 
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 public class WorkerController {
     private final WorkerService workerService;
