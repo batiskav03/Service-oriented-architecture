@@ -37,4 +37,4 @@ create table worker
 );
 
 insert into worker (id, name) values ('0b4cd6d5-5a8b-4aa7-8f4a-49b74a733a90', 'alex');
-
+insert into worker (id, name) values (gen_random_UUID(), 'alex');
