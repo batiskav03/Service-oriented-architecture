@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, {useState, useRef} from 'react';
 import '98.css';
 
 const WorkerService = () => {
@@ -13,18 +13,18 @@ const WorkerService = () => {
     const [successMessage, setSuccessMessage] = useState(''); // Сообщение об успешном удалении работника
 
     // Состояния для перетаскивания иконки
-    const [iconPosition, setIconPosition] = useState({ x: 20, y: 20 });
+    const [iconPosition, setIconPosition] = useState({x: 20, y: 20});
     const [dragging, setDragging] = useState(false);
     const iconRef = useRef(null); // Ссылка на иконку
     const windowRef = useRef(null); // Ссылка на окно
 
     const [workerData, setWorkerData] = useState({
         name: '',
-        coordinates: { x: '', y: '' },
+        coordinates: {x: '', y: ''},
         creationDate: '',
         salary: '',
         startDate: '',
-        status:'',
+        status: '',
         position: '',
         person: {
             birthday: '',
@@ -76,11 +76,11 @@ const WorkerService = () => {
                 setSuccessMessage('Работник успешно создан!');
                 setWorkerData({
                     name: '',
-                    coordinates: { x: '', y: '' },
+                    coordinates: {x: '', y: ''},
                     creationDate: '',
                     salary: '',
                     startDate: '',
-                    status:'',
+                    status: '',
                     position: '',
                     person: {
                         birthday: '',
@@ -206,7 +206,8 @@ const WorkerService = () => {
     const closeWorkerInfoWindow = () => setMode(null);
 
     return (
-        <div style={{ backgroundImage: 'url(/Win98-Desk.png)', backgroundSize: 'cover', height: '100vh' }} onMouseMove={onDrag}>
+        <div style={{backgroundImage: 'url(/Win98-Desk.png)', backgroundSize: 'cover', height: '100vh'}}
+             onMouseMove={onDrag}>
 
             {/* Иконка с перетаскиванием */}
             <div
@@ -251,10 +252,10 @@ const WorkerService = () => {
                         top: '120px',
                         left: '20px',
                         maxWidth: '400px',
-                        padding: '10px',
+                        padding: '3px',
                         zIndex: 10,
-                        background: 'white',
-                        borderRadius: '5px',
+                        background: 'lightgray',
+                        borderRadius: '0px',
                     }}
                 >
                     <div className="title-bar">
@@ -264,46 +265,48 @@ const WorkerService = () => {
                         </div>
                     </div>
                     <div className="window-body">
-                        <button
-                            onClick={() => {
-                                setMode('getWorker'); // Устанавливаем режим получения информации
-                                closeModal(); // Закрываем окно выбора режима
-                            }}
-                            className="button"
-                            style={{width: '100%', marginBottom: '10px'}}
-                        >
-                            Получить информацию о работнике
-                        </button>
-                        <button
-                            onClick={() => {
-                                setMode('deleteWorker'); // Устанавливаем режим удаления работника
-                                closeModal(); // Закрываем окно выбора режима
-                            }}
-                            className="button"
-                            style={{width: '100%', marginBottom: '10px'}}
-                        >
-                            Удалить работника
-                        </button>
-                        <button
-                            onClick={() => {
-                                setMode('updateWorker'); // Устанавливаем режим обновления
-                                closeModal(); // Закрываем окно выбора режима
-                            }}
-                            className="button"
-                            style={{width: '100%', marginBottom: '10px'}}
-                        >
-                            Обновить данные работника
-                        </button>
-                        <button
-                            onClick={() => {
-                                setMode('createWorker');
-                                closeModal(); // Закрываем окно выбора режима
-                            }}
-                            className="button"
-                            style={{width: '100%', marginBottom: '10px'}}
-                        >
-                           Создать работника
-                        </button>
+                        <div className="button-group">
+                            <button
+                                onClick={() => {
+                                    setMode('getWorker'); // Устанавливаем режим получения информации
+                                    closeModal(); // Закрываем окно выбора режима
+                                }}
+                                className="button"
+                                style={{width: '100%', marginBottom: '10px'}}
+                            >
+                                Получить информацию о работнике
+                            </button>
+                            <button
+                                onClick={() => {
+                                    setMode('deleteWorker'); // Устанавливаем режим удаления работника
+                                    closeModal(); // Закрываем окно выбора режима
+                                }}
+                                className="button"
+                                style={{width: '100%', marginBottom: '10px'}}
+                            >
+                                Удалить работника
+                            </button>
+                            <button
+                                onClick={() => {
+                                    setMode('updateWorker'); // Устанавливаем режим обновления
+                                    closeModal(); // Закрываем окно выбора режима
+                                }}
+                                className="button"
+                                style={{width: '100%', marginBottom: '10px'}}
+                            >
+                                Обновить данные работника
+                            </button>
+                            <button
+                                onClick={() => {
+                                    setMode('createWorker');
+                                    closeModal(); // Закрываем окно выбора режима
+                                }}
+                                className="button"
+                                style={{width: '100%', marginBottom: '10px'}}
+                            >
+                                Создать работника
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}
@@ -317,10 +320,10 @@ const WorkerService = () => {
                         top: '180px',
                         left: '20px',
                         maxWidth: '400px',
-                        padding: '10px',
+                        padding: '4px',
                         zIndex: 10,
-                        background: 'white',
-                        borderRadius: '5px',
+                        background: 'lightgray',
+                        borderRadius: '0px',
                     }}
                 >
                     <div className="title-bar">
@@ -338,13 +341,13 @@ const WorkerService = () => {
                                 onChange={(e) => setWorkerId(e.target.value)}
                                 className="input"
                                 placeholder="Введите ID"
-                                style={{ width: '100%', marginBottom: '10px' }}
+                                style={{width: '100%', marginBottom: '10px'}}
                             />
                         </div>
                         <button
                             onClick={handleGetWorker}
                             className="button"
-                            style={{ width: '100%', marginBottom: '10px' }}
+                            style={{width: '100%', marginBottom: '10px'}}
                         >
                             Получить информацию
                         </button>
@@ -352,13 +355,13 @@ const WorkerService = () => {
                         {isLoading && <p>Загрузка...</p>}
 
                         {errorMessage && (
-                            <div style={{ color: 'red', marginTop: '10px' }}>
+                            <div style={{color: 'red', marginTop: '10px'}}>
                                 <p>{errorMessage}</p>
                             </div>
                         )}
 
                         {worker && (
-                            <div style={{ marginTop: '10px' }}>
+                            <div style={{marginTop: '10px'}}>
                                 <h3>Информация о работнике</h3>
                                 <pre>{JSON.stringify(worker, null, 2)}</pre>
                             </div>
@@ -376,10 +379,10 @@ const WorkerService = () => {
                         top: '180px',
                         left: '20px',
                         maxWidth: '400px',
-                        padding: '10px',
+                        padding: '4px',
                         zIndex: 10,
-                        background: 'white',
-                        borderRadius: '5px',
+                        background: 'lightgray',
+                        borderRadius: '0px',
                     }}
                 >
                     <div className="title-bar">
@@ -397,13 +400,13 @@ const WorkerService = () => {
                                 onChange={(e) => setWorkerId(e.target.value)}
                                 className="input"
                                 placeholder="Введите ID"
-                                style={{ width: '100%', marginBottom: '10px' }}
+                                style={{width: '100%', marginBottom: '10px'}}
                             />
                         </div>
                         <button
                             onClick={handleDeleteWorker}
                             className="button"
-                            style={{ width: '100%', marginBottom: '10px' }}
+                            style={{width: '100%', marginBottom: '10px'}}
                         >
                             Удалить работника
                         </button>
@@ -411,13 +414,13 @@ const WorkerService = () => {
                         {isLoading && <p>Загрузка...</p>}
 
                         {errorMessage && (
-                            <div style={{ color: 'red', marginTop: '10px' }}>
+                            <div style={{color: 'red', marginTop: '10px'}}>
                                 <p>{errorMessage}</p>
                             </div>
                         )}
 
                         {successMessage && (
-                            <div style={{ color: 'green', marginTop: '10px' }}>
+                            <div style={{color: 'green', marginTop: '10px'}}>
                                 <p>{successMessage}</p>
                             </div>
                         )}
@@ -434,10 +437,10 @@ const WorkerService = () => {
                         top: '180px',
                         left: '20px',
                         maxWidth: '400px',
-                        padding: '10px',
+                        padding: '4px',
                         zIndex: 10,
-                        background: 'white',
-                        borderRadius: '5px',
+                        background: 'lightgray',
+                        borderRadius: '0px',
                     }}
                 >
                     <div className="title-bar">
@@ -455,7 +458,7 @@ const WorkerService = () => {
                                 onChange={(e) => setWorkerId(e.target.value)}
                                 className="input"
                                 placeholder="Введите ID"
-                                style={{ width: '100%', marginBottom: '10px' }}
+                                style={{width: '100%', marginBottom: '10px'}}
                             />
                         </div>
                         <div>
@@ -466,7 +469,7 @@ const WorkerService = () => {
                                 onChange={(e) => setField(e.target.value)}
                                 className="input"
                                 placeholder="Поле"
-                                style={{ width: '100%', marginBottom: '10px' }}
+                                style={{width: '100%', marginBottom: '10px'}}
                             />
                         </div>
                         <div>
@@ -477,13 +480,13 @@ const WorkerService = () => {
                                 onChange={(e) => setValue(e.target.value)}
                                 className="input"
                                 placeholder="Значение"
-                                style={{ width: '100%', marginBottom: '10px' }}
+                                style={{width: '100%', marginBottom: '10px'}}
                             />
                         </div>
                         <button
                             onClick={handleUpdateWorker}
                             className="button"
-                            style={{ width: '100%', marginBottom: '10px' }}
+                            style={{width: '100%', marginBottom: '10px'}}
                         >
                             Обновить данные
                         </button>
@@ -491,13 +494,13 @@ const WorkerService = () => {
                         {isLoading && <p>Загрузка...</p>}
 
                         {errorMessage && (
-                            <div style={{ color: 'red', marginTop: '10px' }}>
+                            <div style={{color: 'red', marginTop: '10px'}}>
                                 <p>{errorMessage}</p>
                             </div>
                         )}
 
                         {successMessage && (
-                            <div style={{ color: 'green', marginTop: '10px' }}>
+                            <div style={{color: 'green', marginTop: '10px'}}>
                                 <p>{successMessage}</p>
                             </div>
                         )}
@@ -511,11 +514,11 @@ const WorkerService = () => {
                         position: 'absolute',
                         top: '180px',
                         left: '20px',
-                        maxWidth: '400px',
-                        padding: '10px',
+                        maxWidth: '450px',
+                        padding: '4px',
                         zIndex: 10,
-                        background: 'white',
-                        borderRadius: '5px',
+                        background: 'lightgray',
+                        borderRadius: '0px',
                     }}
                 >
                     <div className="title-bar">
@@ -525,150 +528,184 @@ const WorkerService = () => {
                         </div>
                     </div>
                     <div className="window-body">
-                        <form onSubmit={handleCreateWorker}>
-                            <label>
-                                Имя:
-                                <input
-                                    type="text"
-                                    value={workerData.name}
-                                    onChange={(e) =>
-                                        setWorkerData({...workerData, name: e.target.value})
-                                    }
-                                />
-                            </label>
-                            <label>
-                                X:
-                                <input
-                                    type="integer"
-                                    value={workerData.coordinates.x}
-                                    onChange={(e) =>
-                                        setWorkerData({...workerData,  coordinates: {
-                                                ...workerData.coordinates,
-                                                x: e.target.value
-                                            }})
-                                    }
-                                />
-                            </label>
-                            <label>
-                                Y:
-                                <input
-                                    type="integer"
-                                    value={workerData.coordinates.y}
-                                    onChange={(e) =>
-                                        setWorkerData({...workerData,  coordinates: {
-                                                ...workerData.coordinates,
-                                                y: e.target.value
-                                            }})
-                                    }
-                                />
-                            </label>
-                            <label>
-                                Зарплата:
-                                <input
-                                    type="text"
-                                    value={workerData.salary}
-                                    onChange={(e) =>
-                                        setWorkerData({...workerData, salary: e.target.value})
-                                    }
-                                />
-                            </label>
-                            <label>
-                                Статус:
-                                <select
-                                    value={workerData.status}
-                                    onChange={(e) =>
-                                        setWorkerData({...workerData, status: e.target.value})
-                                    }
-                                >
-                                    <option value={"HIRED"}>Нанят</option>
-                                    <option value={"RECOMMENDED_FOR_PROMOTION"}>Рекомендуемо повышение</option>
-                                    <option value={"REGULAR"}>Штатный</option>
-                                    <option value={"PROBATION"}>PROBATION</option>
-                                </select>
-                            </label>
-                            <label>
-                                Дата выхода в штат:
-                                <input
-                                    type="date"
-                                    value={workerData.startDate}
-                                    onChange={(e) =>
-                                        setWorkerData({...workerData, startDate: e.target.value})
-                                    }
-                                />
-                            </label>
-                            <label>
-                                Должность:
-                                <select
-                                    value={workerData.position}
-                                    onChange={(e) =>
-                                        setWorkerData({...workerData, position: e.target.value})
-                                    }
-                                >
-                                    <option value={"HEAD_OF_DEPARTMENT"}>Глава департамента</option>
-                                    <option value={"LEAD_DEVELOPER"}>Тимлид</option>
-                                    <option value={"COOK"}>Повар</option>
-                                </select>
-                            </label>
-                            <label>
-                                День рождения:
-                                <input
-                                    type="date"
-                                    value={workerData.person.birthDate}
-                                    onChange={(e) =>
-                                        setWorkerData({...workerData,  person: {
-                                                ...workerData.person,
-                                                birthday: e.target.value
-                                            }})
-                                    }
-                                />
-                            </label>
-                            <label>
-                                ID Паспорта:
-                                <input
-                                    type="text"
-                                    value={workerData.person.passportID}
-                                    onChange={(e) =>
-                                        setWorkerData({...workerData,  person: {
-                                                ...workerData.person,
-                                                passportID: e.target.value
-                                            }})
-                                    }
-                                />
-                            </label>
-                            <label>
-                                Цвет волос:
-                                <select
-                                    value={workerData.person.hairColor}
-                                    onChange={(e) =>
-                                        setWorkerData({...workerData,  person: {
-                                                ...workerData.person,
-                                                hairColor: e.target.value
-                                            }})
-                                    }
-                                >
-                                    <option value={'RED'}>Красный</option>
-                                    <option value={'BLACK'}>Черный</option>
-                                    <option value={'ORANGE'}>Оранжевый</option>
-                                    <option value={'WHITE'}>Белый</option>
-                                </select>
-                            </label>
-                            <label>
-                                Национальность:
-                                <select
-                                    value={workerData.person.nationality}
-                                    onChange={(e) =>
-                                        setWorkerData({...workerData,  person: {
-                                                ...workerData.person,
-                                                nationality: e.target.value
-                                            }})
-                                    }
-                                >
-                                    <option value={'RUSSIAN'}>Русский</option>
-                                    <option value={'FRANCE'}>Лягушатник</option>
-                                    <option value={'INDIA'}>Индус с ютуба</option>
-                                </select>
-                            </label>
-                            <button type="submit">Создать</button>
+                        <form onSubmit={handleCreateWorker} style={{textAlign: 'left'}}>
+                            <tr>
+                                <td>
+                                    <label style={{textAlign: "left"}}>
+                                        Имя:
+                                        <input
+                                            type="text"
+                                            value={workerData.name}
+                                            onChange={(e) =>
+                                                setWorkerData({...workerData, name: e.target.value})
+                                            }
+                                        />
+                                    </label>
+                                    <label>
+                                        X:
+                                        <input
+                                            type="integer"
+                                            value={workerData.coordinates.x}
+                                            onChange={(e) =>
+                                                setWorkerData({
+                                                    ...workerData, coordinates: {
+                                                        ...workerData.coordinates,
+                                                        x: e.target.value
+                                                    }
+                                                })
+                                            }
+                                        />
+                                    </label>
+                                    <label>
+                                        Y:
+                                        <input
+                                            type="integer"
+                                            value={workerData.coordinates.y}
+                                            onChange={(e) =>
+                                                setWorkerData({
+                                                    ...workerData, coordinates: {
+                                                        ...workerData.coordinates,
+                                                        y: e.target.value
+                                                    }
+                                                })
+                                            }
+                                        />
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>
+                                        Зарплата:
+                                        <input
+                                            type="text"
+                                            value={workerData.salary}
+                                            onChange={(e) =>
+                                                setWorkerData({...workerData, salary: e.target.value})
+                                            }
+                                        />
+                                    </label>
+
+
+                                    <label>
+                                        Статус:
+                                        <select
+                                            value={workerData.status}
+                                            onChange={(e) =>
+                                                setWorkerData({...workerData, status: e.target.value})
+                                            }
+                                        >
+                                            <option value={"HIRED"}>Нанят</option>
+                                            <option value={"RECOMMENDED_FOR_PROMOTION"}>Рекомендуемо повышение</option>
+                                            <option value={"REGULAR"}>Штатный</option>
+                                            <option value={"PROBATION"}>PROBATION</option>
+                                        </select>
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>
+                                        Дата выхода в штат:
+                                        <input
+                                            type="date"
+                                            value={workerData.startDate}
+                                            onChange={(e) =>
+                                                setWorkerData({...workerData, startDate: e.target.value})
+                                            }
+                                        />
+                                    </label>
+                                    <label>
+                                        Должность:
+                                        <select
+                                            value={workerData.position}
+                                            onChange={(e) =>
+                                                setWorkerData({...workerData, position: e.target.value})
+                                            }
+                                        >
+                                            <option value={"HEAD_OF_DEPARTMENT"}>Глава департамента</option>
+                                            <option value={"LEAD_DEVELOPER"}>Тимлид</option>
+                                            <option value={"COOK"}>Повар</option>
+                                        </select>
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>
+                                        День рождения:
+                                        <input
+                                            type="date"
+                                            value={workerData.person.birthDate}
+                                            onChange={(e) =>
+                                                setWorkerData({
+                                                    ...workerData, person: {
+                                                        ...workerData.person,
+                                                        birthday: e.target.value
+                                                    }
+                                                })
+                                            }
+                                        />
+                                    </label>
+                                    <label>
+                                        ID Паспорта:
+                                        <input
+                                            type="text"
+                                            value={workerData.person.passportID}
+                                            onChange={(e) =>
+                                                setWorkerData({
+                                                    ...workerData, person: {
+                                                        ...workerData.person,
+                                                        passportID: e.target.value
+                                                    }
+                                                })
+                                            }
+                                        />
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>
+                                        Цвет волос:
+                                        <select
+                                            value={workerData.person.hairColor}
+                                            onChange={(e) =>
+                                                setWorkerData({
+                                                    ...workerData, person: {
+                                                        ...workerData.person,
+                                                        hairColor: e.target.value
+                                                    }
+                                                })
+                                            }
+                                        >
+                                            <option value={'RED'}>Красный</option>
+                                            <option value={'BLACK'}>Черный</option>
+                                            <option value={'ORANGE'}>Оранжевый</option>
+                                            <option value={'WHITE'}>Белый</option>
+                                        </select>
+                                    </label>
+                                    <label>
+                                        Национальность:
+                                        <select
+                                            value={workerData.person.nationality}
+                                            onChange={(e) =>
+                                                setWorkerData({
+                                                    ...workerData, person: {
+                                                        ...workerData.person,
+                                                        nationality: e.target.value
+                                                    }
+                                                })
+                                            }
+                                        >
+                                            <option value={'RUSSIAN'}>Русский</option>
+                                            <option value={'FRANCE'}>Лягушатник</option>
+                                            <option value={'INDIA'}>Индус с ютуба</option>
+                                        </select>
+                                    </label>
+                                    <button type="submit">Создать</button>
+                                </td>
+                            </tr>
                         </form>
                     </div>
                 </div>
