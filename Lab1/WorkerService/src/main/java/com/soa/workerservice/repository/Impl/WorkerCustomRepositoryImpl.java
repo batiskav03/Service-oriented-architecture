@@ -1,8 +1,6 @@
 package com.soa.workerservice.repository.Impl;
 
-import com.soa.workerservice.model.Coordinates;
-import com.soa.workerservice.model.Person;
-import com.soa.workerservice.model.Worker;
+import com.soa.workerservice.model.*;
 import com.soa.workerservice.repository.WorkerCustomRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
@@ -13,6 +11,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -39,7 +38,43 @@ public class WorkerCustomRepositoryImpl implements WorkerCustomRepository{
     @Override
     @Transactional
     @Modifying
+    public UUID createCoordinatesForNewWorker(Integer x, Integer y) {
+        String QUERY = "INSERT INTO coordinates (id, x, y) VALUES (:id, :x, :y)";
+        Query query = entityManager.createNativeQuery(QUERY);
+        UUID id = UUID.randomUUID();
+        query.setParameter("id", id);
+        query.setParameter("x", x);
+        query.setParameter("y", y);
+        query.executeUpdate();
+        return id;
+    }
+    @Override
+    @Transactional
+    @Modifying
+    public UUID createPersonForNewWorker(Date birthday, UUID passportID,
+                                         HairColor hairColor, Nationality nationality) {
+        String QUERY = "INSERT INTO person (id, birthday, passport_uuid, hairColor, nationality) VALUES (:id, :birthday, :passport_uuid," +
+                ":hairColor, :nationality)";
+        Query query = entityManager.createNativeQuery(QUERY);
+        UUID id = UUID.randomUUID();
+        query.setParameter("id", id);
+        query.setParameter("birthday", birthday);
+        query.setParameter("passport_uuid", passportID);
+        query.setParameter("hairColor", hairColor);
+        query.setParameter("nationality", nationality);
+        query.executeUpdate();
+        return id;
+    }
+
+
+
+
+    @Override
+    @Transactional
+    @Modifying
     public UUID createWorker(Worker worker) {
+        var coordinatesId = createCoordinatesForNewWorker(worker.getCoordinates().getX(), worker.getCoordinates().getY());
+        var personId = createPersonForNewWorker(worker.getPerson().getBirthday(), worker.getPerson().getPassportID(), worker.getPerson().getHairColor(), worker.getPerson().getNationality());
         Coordinates coord = worker.getCoordinates();
         UUID coord_id = null;
         if (coord != null) coord_id = coord.getId();
@@ -56,13 +91,13 @@ public class WorkerCustomRepositoryImpl implements WorkerCustomRepository{
         Query query = entityManager.createNativeQuery(QUERY);
         query.setParameter("id", id);
         query.setParameter("name", worker.getName());
-        query.setParameter("coordinates", coord_id);
+        query.setParameter("coordinates", coordinatesId);
         query.setParameter("startDate", worker.getStartDate());
         query.setParameter("salary", worker.getSalary());
         query.setParameter("creationDate", worker.getCreationDate());
         query.setParameter("status", worker.getStatus());
         query.setParameter("position", worker.getPosition());
-        query.setParameter("person", pers_id);
+        query.setParameter("person", personId);
 
         query.executeUpdate();
         return id;
