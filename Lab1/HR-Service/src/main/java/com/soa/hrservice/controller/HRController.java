@@ -53,7 +53,6 @@ public class HRController {
                             "person-id is uncorrected, change id and retry x")
                     .build();
         }
-        System.out.println("1");
         String out = workerRequestService.hirePerson(personId, position, startDate);
         return Response.ok()
                 .entity(out)
