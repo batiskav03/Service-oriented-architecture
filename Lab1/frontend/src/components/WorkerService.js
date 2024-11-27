@@ -33,10 +33,21 @@ const WorkerService = () => {
         },
     });
 
+    const [filterData, setFilterData] = useState({
+       sorting: '',
+       filter: {
+           key: '',
+           operation: '',
+           value: '',
+       },
+       page: '',
+       pageSize: '',
+    });
+
 
     const startDrag = (e) => {
-        setDragging(true);
         e.preventDefault();
+        setDragging(true);
     };
 
     const onDrag = (e) => {
@@ -120,6 +131,35 @@ const WorkerService = () => {
         } catch (error) {
             setErrorMessage('Ошибка соединения: ' + error.message);
             setWorker(null);
+        }
+
+        setIsLoading(false);
+    };
+
+    const handleGetWorkers = async () => {
+        setIsLoading(true);
+        setErrorMessage('');
+        setSuccessMessage('');
+
+        try {
+            const response = await fetch(`http://localhost:8080/api/worker/get`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(filterData),
+            });
+
+            if (!response.ok) {
+                const result = await response.json();
+                setErrorMessage(result.message || 'Не удалось получить данные.');
+            } else {
+                const result = await response.json();
+                setErrorMessage('');
+                setSuccessMessage(``);
+            }
+        } catch (error) {
+            setErrorMessage('Ошибка соединения: ' + error.message);
         }
 
         setIsLoading(false);
