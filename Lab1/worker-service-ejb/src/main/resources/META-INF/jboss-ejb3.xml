@@ -1,0 +1,14 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<jboss:ejb-jar xmlns:jboss="http://www.jboss.com/xml/ns/javaee"
+               xmlns="http://java.sun.com/xml/ns/javaee"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xmlns:s="urn:security:1.1"
+               xsi:schemaLocation="http://www.jboss.com/xml/ns/javaee http://www.jboss.org/j2ee/schema/jboss-ejb3-2_0.xsd"
+               version="3.1">
+    <enterprise-beans>
+        <session>
+            <ejb-name>WorkerServiceBean</ejb-name>
+            <pool-name>worker-pool</pool-name>
+        </session>
+    </enterprise-beans>
+</jboss:ejb-jar> 
