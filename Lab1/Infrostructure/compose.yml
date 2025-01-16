@@ -22,17 +22,17 @@ services:
 #    ports:
 #      - 1433:1433
 
-#  backend:
-#    container_name: xyu
-#    build:
-#      context: ../WorkerService
-#      dockerfile: Dockerfile
-#    environment:
-#      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
-#    ports:
-#      - '8080:8080'
-#    networks:
-#      - net
+  backend:
+    container_name: xyu
+    build:
+      context: ../WorkerService
+      dockerfile: Dockerfile
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
+    ports:
+      - '8080:8080'
+    networks:
+      - net
 
 networks:
   net:

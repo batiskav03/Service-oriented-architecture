@@ -17,6 +17,8 @@ const WorkerService = () => {
     const iconRef = useRef(null);
     const windowRef = useRef(null);
 
+    const HOSTANDPORT = 'localhost:9999/WorkerService-0.0.1-SNAPSHOT'
+
     const [workerData, setWorkerData] = useState({
         name: '',
         coordinates: {x: '', y: ''},
@@ -70,7 +72,7 @@ const WorkerService = () => {
         setSuccessMessage('');
 
         try {
-            const response = await fetch('http://localhost:8080/api/worker/create', {
+            const response = await fetch(`https://${HOSTANDPORT}/api/worker/create`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -117,7 +119,7 @@ const WorkerService = () => {
         setErrorMessage('');
 
         try {
-            const response = await fetch(`http://localhost:8080/api/worker/get/${workerId}`);
+            const response = await fetch(`https://${HOSTANDPORT}/api/worker/get/${workerId}`);
 
             if (!response.ok) {
                 const result = await response.json();
@@ -177,7 +179,7 @@ const WorkerService = () => {
         setSuccessMessage('');
 
         try {
-            const response = await fetch(`http://localhost:8080/api/worker/delete/${workerId}`, {
+            const response = await fetch(`https://${HOSTANDPORT}/api/worker/delete/${workerId}`, {
                 method: 'DELETE',
             });
 
@@ -213,7 +215,7 @@ const WorkerService = () => {
                 value,
             };
 
-            const response = await fetch(`http://localhost:8080/api/worker/update/${workerId}`, {
+            const response = await fetch(`https://${HOSTANDPORT}/api/worker/update/${workerId}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',

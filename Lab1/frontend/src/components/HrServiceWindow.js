@@ -96,6 +96,9 @@ const Modal = ({ isOpen, onClose, onFire, onHire }) => {
 };
 
 const HrServiceWindow = () => {
+
+    const HOSTANDPORT = 'localhost:9998/HR-Service-1.0-SNAPSHOT'
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [serverResponse, setServerResponse] = useState(null);
 
@@ -130,7 +133,7 @@ const HrServiceWindow = () => {
 
     const handleFire = async (fireId) => {
         try {
-            const response = await fetch(`http://localhost:8081/api/fire/${fireId}`, {
+            const response = await fetch(`https://${HOSTANDPORT}/hr/fire/${fireId}`, {
                 method: 'DELETE',
             });
 
@@ -150,7 +153,7 @@ const HrServiceWindow = () => {
     const handleHire = async (personId, position, startDate) => {
         try {
             const response = await fetch(
-                `http://localhost:8081/api/hire/${personId}/${position}/${startDate}`,
+                `https://${HOSTANDPORT}/hr/hire/${personId}/${position}/${startDate}`,
                 {
                     method: 'POST',
                 }
