@@ -6,18 +6,18 @@ import com.soa.workerservice.ejb.models.responses.WorkerResponse;
 import com.soa.workerservice.ejb.repository.WorkerRepository;
 import com.soa.workerservice.ejb.repository.impl.WorkerCustomRepositoryImpl;
 import com.soa.workerservice.ejb.models.SearchCriteria;
-import com.soa.workerservice.ejb.models.WorkerSpecification;
+//import com.soa.workerservice.ejb.models.WorkerSpecification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
-import javax.ejb.Remote;
-import javax.ejb.Stateless;
-import javax.ejb.ConcurrencyManagement;
-import javax.ejb.ConcurrencyManagementType;
-import javax.inject.Inject;
+import jakarta.ejb.Remote;
+import jakarta.ejb.Stateless;
+import jakarta.ejb.ConcurrencyManagement;
+import jakarta.ejb.ConcurrencyManagementType;
+import jakarta.inject.Inject;
 import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.List;
@@ -150,8 +150,10 @@ public class WorkerBean implements WorkerRemote {
     @Override
     public Page<Worker> getAllWorkers(String sorting, SearchCriteria filter, int page, int pageSize) {
         Pageable pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.ASC, sorting));
-        Specification<Worker> spec = new WorkerSpecification(filter);
-        return workerRepository.findAll(spec, pageable);
+        //Specification<Worker> spec = new WorkerSpecification(filter);
+        //workerRepository.findAll(spec, pageable);
+        return null;
+
     }
 
     @Override

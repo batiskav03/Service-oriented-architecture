@@ -18,7 +18,8 @@
             <groupId>com.soa</groupId>
             <artifactId>worker-ejb</artifactId>
             <version>${project.version}</version>
-            <type>ejb</type>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/../worker-ejb/target/worker-ejb-1.0-SNAPSHOT.jar</systemPath>
         </dependency>
 
         <!-- Spring Boot -->
@@ -51,7 +52,14 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring-boot.version}</version>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

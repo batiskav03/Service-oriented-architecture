@@ -5,7 +5,7 @@ import com.soa.workerservice.ejb.models.HairColor;
 import com.soa.workerservice.ejb.models.Nationality;
 import com.soa.workerservice.ejb.models.Worker;
 
-import javax.ejb.Local;
+import jakarta.ejb.Local;
 import java.util.Date;
 import java.util.UUID;
 

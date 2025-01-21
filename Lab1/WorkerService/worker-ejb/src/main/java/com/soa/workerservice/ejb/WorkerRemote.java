@@ -7,7 +7,7 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 import java.util.UUID;
 
-import javax.ejb.Remote;
+import jakarta.ejb.Remote;
 
 @Remote
 public interface WorkerRemote {

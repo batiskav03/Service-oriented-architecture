@@ -7,8 +7,10 @@ DB_NAME=${DB_NAME:-worker_db}
 DB_USER=${DB_USER:-postgres}
 DB_PASSWORD=${DB_PASSWORD:-postgres}
 
-# Обновление параметров пула соединений
-asadmin start-domain
+# Запуск домена с новыми портами
+asadmin start-domain --verbose
+
+# Создание пула соединений
 asadmin create-jdbc-connection-pool \
     --datasourceclassname org.postgresql.ds.PGSimpleDataSource \
     --restype javax.sql.DataSource \
@@ -20,8 +22,12 @@ asadmin create-jdbc-connection-pool \
     url="jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}" \
     WorkerJDBCPool
 
-# Запуск Consul агента
-consul agent -dev -client=0.0.0.0 &
+# Создание JDBC ресурса
+asadmin create-jdbc-resource --connectionpoolid WorkerJDBCPool jdbc/WorkerDS
 
-# Запуск Payara
-$PAYARA_DIR/bin/asadmin start-domain --verbose 
+# Развертывание приложений
+asadmin deploy ${DEPLOY_DIR}/worker-ejb-1.0-SNAPSHOT.jar
+asadmin deploy ${DEPLOY_DIR}/worker-web-1.0-SNAPSHOT.war
+
+# Держим процесс активным
+tail -f ${PAYARA_DIR}/glassfish/domains/domain1/logs/server.log 
