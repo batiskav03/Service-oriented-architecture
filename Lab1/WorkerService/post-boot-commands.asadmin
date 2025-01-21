@@ -1,0 +1,1 @@
+create-resource-pool --poolname workerPool --restype javax.ejb.SessionContext --property steady-pool-size=5:max-pool-size=20:resize-quantity=2 

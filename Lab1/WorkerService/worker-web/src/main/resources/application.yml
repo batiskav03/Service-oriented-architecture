@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: worker-service
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        enabled: true
+        instanceId: ${spring.application.name}:${random.value}
+        healthCheckPath: /actuator/health
+        healthCheckInterval: 15s
+
+server:
+  port: 8080 
