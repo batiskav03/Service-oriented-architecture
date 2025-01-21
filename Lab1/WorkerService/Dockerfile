@@ -12,6 +12,9 @@ ARG JAR_FILE=./target/WorkerService-0.0.1-SNAPSHOT.jar
 
 ADD ${JAR_FILE} backend.jar
 
+# Копируем драйвер PostgreSQL
+COPY worker-ejb/postgresql-42.2.27.jar ${PAYARA_DIR}/glassfish/lib/
+
 # Копируем EJB модуль
 COPY worker-ejb/target/worker-ejb.jar $DEPLOY_DIR
 

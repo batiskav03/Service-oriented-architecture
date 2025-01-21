@@ -150,7 +150,7 @@ public class WorkerBean implements WorkerRemote {
     @Override
     public Page<Worker> getAllWorkers(String sorting, SearchCriteria filter, int page, int pageSize) {
         Pageable pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.ASC, sorting));
-        Specification<Worker> spec = new WorkerSpecification(new SearchCriteria(filter));
+        Specification<Worker> spec = new WorkerSpecification(filter);
         return workerRepository.findAll(spec, pageable);
     }
 
