@@ -1,16 +1,24 @@
 # back
-# устанавливаем самую лёгкую версию JVM
-FROM amazoncorretto:17
+# Используем Payara с Java 17
+FROM payara/server-full:6.2024.1-jdk17
 
 LABEL maintainer="2262288@gmail.com"
 
-VOLUME /tmp
+USER root
 
-EXPOSE 8080
+# Копируем EJB модуль
+COPY ./worker-ejb/target/worker-ejb-1.0-SNAPSHOT.jar ${DEPLOY_DIR}/
 
-ARG JAR_FILE=./target/WorkerService-0.0.1-SNAPSHOT.jar
+# Копируем веб-модуль
+COPY ./worker-web/target/worker-web-1.0-SNAPSHOT.war ${DEPLOY_DIR}/
 
-ADD ${JAR_FILE} backend.jar
+# Копируем скрипт запуска
+COPY ./start.sh /opt/start.sh
+RUN chmod +x /opt/start.sh
 
-# команда запуска джарника
-ENTRYPOINT ["java", "-jar", "backend.jar"]
+# Меняем владельца файлов на payara
+RUN chown -R payara:payara ${DEPLOY_DIR} ${PAYARA_DIR} /opt/start.sh
+
+USER payara
+
+ENTRYPOINT ["/opt/start.sh"]

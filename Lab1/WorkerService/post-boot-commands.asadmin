@@ -1,0 +1,21 @@
+# Создание пула EJB
+create-resource-pool --poolname workerPool --restype javax.ejb.SessionContext --property steady-pool-size=5:max-pool-size=20:resize-quantity=2
+
+# Создание пула соединений к PostgreSQL
+create-jdbc-connection-pool \
+    --datasourceclassname org.postgresql.ds.PGSimpleDataSource \
+    --restype javax.sql.DataSource \
+    --property portNumber=5432:\
+    serverName=localhost:\
+    databaseName=worker_db:\
+    user=postgres:\
+    password=postgres:\
+    url="jdbc:postgresql://localhost:5432/worker_db" \
+    WorkerJDBCPool
+
+# Создание JDBC ресурса, который будет использоваться в persistence.xml
+create-jdbc-resource --connectionpoolid WorkerJDBCPool jdbc/WorkerDS
+
+# Применение изменений
+deploy --force=true ${DEPLOY_DIR}/worker-ejb.jar
+deploy --force=true ${DEPLOY_DIR}/worker-web.war 
