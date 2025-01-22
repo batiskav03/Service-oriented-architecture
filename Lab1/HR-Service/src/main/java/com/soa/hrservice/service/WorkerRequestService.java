@@ -1,67 +1,34 @@
 package com.soa.hrservice.service;
 
-import jakarta.ejb.Singleton;
-import org.apache.hc.client5.http.classic.methods.HttpPost;
-import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
-import org.apache.hc.client5.http.impl.classic.HttpClients;
-import org.apache.hc.core5.http.ClassicHttpRequest;
-import org.apache.hc.core5.http.ContentType;
-import org.apache.hc.core5.http.HttpEntity;
-import org.apache.hc.core5.http.io.entity.EntityUtils;
-import org.apache.hc.core5.http.io.entity.StringEntity;
-import org.apache.hc.core5.http.io.support.ClassicRequestBuilder;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.UUID;
 
-@Singleton
+@Service
 public class WorkerRequestService {
+    private static final String DELETE_URL = "http://localhost:8080/api/worker/delete/";
+    private static final String HIRE_URL = "http://localhost:8080/api/worker/create";
 
-    public final String DELETE_URL = "http://localhost:8080/api/worker/delete/";
-    public final String HIRE_URL = "http://localhost:8080/api/worker/create";
+    @Autowired
+    private RestTemplate restTemplate;
 
     public String fireWorker(UUID uuid) {
-        try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
-            ClassicHttpRequest httpGet = ClassicRequestBuilder
-                    .delete( DELETE_URL + uuid.toString())
-                    .build();
-            return getMessageFromResponse(httpclient, httpGet);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        ResponseEntity<String> response = restTemplate.exchange(DELETE_URL + uuid.toString(), HttpMethod.DELETE, null, String.class);
+        return response.getBody();
     }
 
     public String hirePerson(String personId, String position, String startDate) {
-        StringEntity requestEntity = new StringEntity(
-          "{ " +
-                  " \"startDate\": \"" + startDate + "\"," +
-                  "\"position\": \"" + position + "\"," +
-                  "\"personId\": \"" + personId + "\"" +
-                  "}",
-                ContentType.APPLICATION_JSON);
-        try (final CloseableHttpClient httpClient = HttpClients.createDefault()) {
-            ClassicHttpRequest httpPost = new HttpPost(HIRE_URL);
-            httpPost.setEntity(requestEntity);
-            return getMessageFromResponse(httpClient, httpPost);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
 
-    private String getMessageFromResponse(CloseableHttpClient httpClient, ClassicHttpRequest httpRequest) throws IOException {
-        return httpClient.execute(httpRequest, response -> {
-            final HttpEntity entity = response.getEntity();
-            BufferedReader br = new BufferedReader(
-                    new InputStreamReader((response.getEntity().getContent())));
-            String output;
-            while ((output = br.readLine()) != null) {
-                System.out.println(output);
-            }
-            EntityUtils.consume(entity);
-            return output;
-        });
+        String input = "{ 'startDate': '" + startDate + "', 'position': '" + position + "', 'personId': '" + personId + "'}";
+        ResponseEntity<String> responseEntityStr = restTemplate.postForEntity(HIRE_URL, input, String.class);
+        return responseEntityStr.getBody();
     }
-
 }
