@@ -3,10 +3,12 @@ package com.soa.workerservice.ejb;
 import com.soa.workerservice.ejb.models.Worker;
 import com.soa.workerservice.ejb.models.responses.MessageResponse;
 import com.soa.workerservice.ejb.models.responses.WorkerResponse;
+import com.soa.workerservice.ejb.repository.WorkerCustomRepository;
 import com.soa.workerservice.ejb.repository.WorkerRepository;
 import com.soa.workerservice.ejb.repository.impl.WorkerCustomRepositoryImpl;
 import com.soa.workerservice.ejb.models.SearchCriteria;
 //import com.soa.workerservice.ejb.models.WorkerSpecification;
+import com.soa.workerservice.ejb.repository.impl.WorkerRepositoryImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -34,7 +36,7 @@ public class WorkerBean implements WorkerRemote {
     private WorkerRepository workerRepository;
     
     @Inject
-    private WorkerCustomRepositoryImpl workerCustomRepository;
+    private WorkerCustomRepository workerCustomRepository;
     
     @Override
     public MessageResponse getWorker(UUID id) {

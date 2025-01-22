@@ -4,32 +4,40 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
-@AllArgsConstructor
+import org.springframework.lang.Nullable;
+
+/*
 public class WorkerSpecification implements Specification<Worker> {
+    private final SearchCriteria criteria;
 
-
-    private SearchCriteria criteria;
+    public WorkerSpecification(SearchCriteria criteria) {
+        this.criteria = criteria;
+    }
 
     @Override
+    @Nullable
     public Predicate toPredicate(Root<Worker> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
         if (criteria.getOperation().equalsIgnoreCase(">")) {
-            return builder.greaterThanOrEqualTo(
-                    root.<String> get(criteria.getKey()), criteria.getValue().toString());
-        }
-        else if (criteria.getOperation().equalsIgnoreCase("<")) {
-            return builder.lessThanOrEqualTo(
-                    root.<String> get(criteria.getKey()), criteria.getValue().toString());
-        }
-        else if (criteria.getOperation().equalsIgnoreCase(":")) {
-            if (root.get(criteria.getKey()).getJavaType() == String.class) {
-                return builder.like(
-                        root.<String>get(criteria.getKey()), "%" + criteria.getValue() + "%");
-            } else {
-                return builder.equal(root.get(criteria.getKey()), criteria.getValue());
-            }
+            return builder.greaterThan(root.get(criteria.getKey()), criteria.getValue().toString());
+        } else if (criteria.getOperation().equalsIgnoreCase("<")) {
+            return builder.lessThan(root.get(criteria.getKey()), criteria.getValue().toString());
+        } else if (criteria.getOperation().equalsIgnoreCase(":")) {
+            return builder.equal(root.get(criteria.getKey()), criteria.getValue());
         }
         return null;
     }
+
+    @Override
+    public Specification<Worker> and(Specification<Worker> other) {
+        return Specification.super.and(other);
+    }
+
+    @Override
+    public Specification<Worker> or(Specification<Worker> other) {
+        return Specification.super.or(other);
+    }
+
+   
 }
+*/
