@@ -4,18 +4,14 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
                              http://java.sun.com/xml/ns/javaee/ejb-jar_3_1.xsd"
          version="3.1">
+
     <enterprise-beans>
         <session>
             <ejb-name>WorkerBean</ejb-name>
+            <remote>com.soa.workerservice.ejb.WorkerRemote</remote>
             <ejb-class>com.soa.workerservice.ejb.WorkerBean</ejb-class>
             <session-type>Stateless</session-type>
             <transaction-type>Container</transaction-type>
-            
-            <pool>
-                <min-pool-size>5</min-pool-size>
-                <max-pool-size>20</max-pool-size>
-                <resize-quantity>2</resize-quantity>
-            </pool>
         </session>
     </enterprise-beans>
 </ejb-jar> 

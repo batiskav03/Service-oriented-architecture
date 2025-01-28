@@ -65,16 +65,6 @@ public class WorkerController {
         return workerBean.createWorker(worker);
     }
 
-    @GetMapping("/api/workers/get")
-    public MessageResponse getAllWorkers(@RequestBody PageableAndSortingRequest request) {
-        Page<Worker> result = workerBean.getAllWorkers(
-            request.getSorting(), 
-            request.getFilter(),
-            request.getPage(), 
-            request.getPageSize()
-        );
-        return new PageResponse<>(200, new Date(), "Ok", result);
-    }
 
     @GetMapping("/api/worker/getUniqPosition")
     public MessageResponse getUniqWorkersByPosition() {
