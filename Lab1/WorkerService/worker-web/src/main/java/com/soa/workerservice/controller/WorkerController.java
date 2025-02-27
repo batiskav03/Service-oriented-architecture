@@ -1,11 +1,13 @@
 package com.soa.workerservice.controller;
 
+import com.soa.workerservice.ejb.WorkerBean;
 import com.soa.workerservice.ejb.WorkerRemote;
 import com.soa.workerservice.ejb.models.Worker;
 import com.soa.workerservice.ejb.models.responses.MessageResponse;
 import com.soa.workerservice.ejb.models.responses.PageResponse;
 import com.soa.workerservice.ejb.models.request.UpdateDetailsRequest;
 import com.soa.workerservice.ejb.models.request.PageableAndSortingRequest;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,20 +18,20 @@ import java.util.UUID;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
+@RequestMapping("/")
 public class WorkerController {
     
-    private final WorkerRemote workerBean;
-    
+    private final WorkerBean workerBean;
     public WorkerController() {
         try {
             InitialContext context = new InitialContext();
-            workerBean = (WorkerRemote) context.lookup("java:global/worker-ejb/WorkerBean!com.soa.workerservice.ejb.WorkerRemote");
+            workerBean = (WorkerBean) context.lookup("java:global/worker-ejb/WorkerBean!com.soa.workerservice.ejb.WorkerRemote");
         } catch (Exception e) {
             throw new RuntimeException("Failed to lookup EJB", e);
         }
     }
     
-    @GetMapping("api/worker/get/{id}")
+    @GetMapping("/api/worker/get/{id}")
     public MessageResponse getWorker(@PathVariable String id) {
         try {
             return workerBean.getWorker(UUID.fromString(id));
@@ -42,7 +44,7 @@ public class WorkerController {
         }
     }
     
-    @DeleteMapping("api/worker/delete/{id}")
+    @DeleteMapping("/api/worker/delete/{id}")
     public MessageResponse deleteWorker(@PathVariable String id) {
         try {
             return workerBean.deleteWorker(UUID.fromString(id));
@@ -65,16 +67,6 @@ public class WorkerController {
         return workerBean.createWorker(worker);
     }
 
-    @GetMapping("/api/workers/get")
-    public MessageResponse getAllWorkers(@RequestBody PageableAndSortingRequest request) {
-        Page<Worker> result = workerBean.getAllWorkers(
-            request.getSorting(), 
-            request.getFilter(),
-            request.getPage(), 
-            request.getPageSize()
-        );
-        return new PageResponse<>(200, new Date(), "Ok", result);
-    }
 
     @GetMapping("/api/worker/getUniqPosition")
     public MessageResponse getUniqWorkersByPosition() {
@@ -91,5 +83,10 @@ public class WorkerController {
                 .code(200)
                 .message("Ok, Uniq Workers by positions - " + workers)
                 .build();
+    }
+    @GetMapping("/xyu")
+    public String xyu() {
+        System.out.println("XYU");
+        return "xyu";
     }
 } 

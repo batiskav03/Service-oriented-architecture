@@ -2,71 +2,58 @@ package com.soa.workerservice.ejb.repository.impl;
 
 import com.soa.workerservice.ejb.models.*;
 import com.soa.workerservice.ejb.repository.WorkerCustomRepository;
+import com.soa.workerservice.ejb.repository.DatabaseManager;
 import jakarta.ejb.Stateless;
-import jakarta.ejb.TransactionAttribute;
-import jakarta.ejb.TransactionAttributeType;
-import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.Query;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.UUID;
 
 @Stateless
 public class WorkerCustomRepositoryImpl implements WorkerCustomRepository {
-    
     @PersistenceContext(unitName = "WorkerPU")
-    private EntityManager entityManager;
-    
+
+    private DatabaseManager dbManager = new DatabaseManager();
+
     @Override
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public <T> void updateWorkerFieldById(UUID id, String field, T value) {
-        if (!isValidField(field)) {
-            throw new IllegalArgumentException("Invalid field: " + field);
+        String sql = "UPDATE workers SET " + field + " = ? WHERE id = ?";
+        try {
+            dbManager.executeUpdate(sql, value, id);
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to update worker field", e);
         }
-
-        String jpql = "UPDATE Worker w SET w." + field + " = :value WHERE w.id = :id";
-        Query query = entityManager.createQuery(jpql);
-        query.setParameter("value", value);
-        query.setParameter("id", id);
-
-        query.executeUpdate();
     }
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public UUID createCoordinatesForNewWorker(Integer x, Integer y) {
-        Coordinates coordinates = new Coordinates();
-        coordinates.setId(UUID.randomUUID());
-        coordinates.setX(x);
-        coordinates.setY(y);
-        
-        entityManager.persist(coordinates);
-        entityManager.flush();
-        
-        return coordinates.getId();
+        UUID id = UUID.randomUUID();
+        String sql = "INSERT INTO coordinates (id, x, y) VALUES (?, ?, ?)";
+        try {
+            dbManager.executeUpdate(sql, id, x, y);
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to create coordinates", e);
+        }
+        return id;
     }
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public UUID createPersonForNewWorker(Date birthday, UUID passportID,
                                        HairColor hairColor, Nationality nationality) {
-        Person person = new Person();
-        person.setId(UUID.randomUUID());
-        person.setBirthday(birthday);
-        person.setPassportID(passportID);
-        person.setHairColor(hairColor);
-        person.setNationality(nationality);
-        
-        entityManager.persist(person);
-        entityManager.flush();
-        
-        return person.getId();
+        UUID id = UUID.randomUUID();
+        String sql = "INSERT INTO persons (id, birthday, passport_id, hair_color, nationality) VALUES (?, ?, ?, ?, ?)";
+        try {
+            dbManager.executeUpdate(sql, id, birthday, passportID, hairColor.toString(), nationality.toString());
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to create person", e);
+        }
+        return id;
     }
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public UUID createWorker(Worker worker) {
-        // Создаем связанные сущности
         UUID coordinatesId = createCoordinatesForNewWorker(
             worker.getCoordinates().getX(), 
             worker.getCoordinates().getY()
@@ -79,22 +66,13 @@ public class WorkerCustomRepositoryImpl implements WorkerCustomRepository {
             worker.getPerson().getNationality()
         );
 
-        // Получаем созданные сущности
-        Coordinates coordinates = entityManager.find(Coordinates.class, coordinatesId);
-        Person person = entityManager.find(Person.class, personId);
-
-        // Создаем и сохраняем работника
-        worker.setId(UUID.randomUUID());
-        worker.setCoordinates(coordinates);
-        worker.setPerson(person);
-        
-        entityManager.persist(worker);
-        entityManager.flush();
-        
-        return worker.getId();
-    }
-
-    private boolean isValidField(String field) {
-        return true;
+        UUID workerId = UUID.randomUUID();
+        String sql = "INSERT INTO workers (id, name, position, salary, coordinates_id, person_id) VALUES (?, ?, ?, ?, ?, ?)";
+        try {
+            dbManager.executeUpdate(sql, workerId, worker.getName(), worker.getPosition(), worker.getSalary(), coordinatesId, personId);
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to create worker", e);
+        }
+        return workerId;
     }
 } 
