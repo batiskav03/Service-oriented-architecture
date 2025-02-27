@@ -2,4 +2,17 @@ spring:
   application:
     name: gateway
   config:
-    import: configserver:http://localhost:8888
+    import: configserver:${CONFIG_SERVER_URL:http://localhost:8888}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER:http://localhost:8761/eureka}
+
+
+zuul:
+  routes:
+    hr:
+      service-id: HRService
+      path: /hr/**
+      strip-prefix: false

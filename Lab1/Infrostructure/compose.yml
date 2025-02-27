@@ -10,8 +10,72 @@ services:
       - ./scripts:/docker-entrypoint-initdb.d
     ports:
       - "5431:5432"
+    expose:
+      - "5431"
     networks:
       - net
+
+  gateway-service:
+    build: ../gateway
+    environment:
+      - CONFIG_SERVER_URL=http://config-service:8888
+      - EUREKA_SERVER=http://eureka:8761/eureka
+    ports:
+      - "8080:8080"
+    depends_on:
+      - eureka
+      - config-service
+    networks:
+      - net
+
+  eureka:
+    build: ../eureka
+    ports:
+      - "8761:8761"
+    networks:
+      - net
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8761/actuator/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  config-service:
+    build: ../configService
+    environment:
+      - EUREKA_SERVER=http://eureka:8761/eureka
+      - SPRING_PROFILES_ACTIVE=native
+    depends_on:
+      - eureka
+    ports:
+      - "8888:8888"
+    networks:
+      - net
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8888/actuator/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  hrservice:
+    build: ../HR-Service
+    environment:
+      - EUREKA_SERVER=http://eureka:8761/eureka
+      - CONFIG_SERVER_URL=http://config-service:8888
+    ports:
+      - "8081:8081"
+    depends_on:
+      - eureka
+      - config-service
+    networks:
+      - net
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8081/actuator/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+
 #  mssql:
 #    container_name: sql-server
 #    image: mcr.microsoft.com/azure-sql-edge:latest
