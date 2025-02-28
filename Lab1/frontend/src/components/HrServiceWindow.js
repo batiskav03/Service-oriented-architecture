@@ -96,6 +96,7 @@ const Modal = ({ isOpen, onClose, onFire, onHire }) => {
 };
 
 const HrServiceWindow = () => {
+    const SERVICE_URL = "http://localhost:8083/"
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [serverResponse, setServerResponse] = useState(null);
 
@@ -130,7 +131,7 @@ const HrServiceWindow = () => {
 
     const handleFire = async (fireId) => {
         try {
-            const response = await fetch(`http://localhost:8081/api/fire/${fireId}`, {
+            const response = await fetch(`${SERVICE_URL}/hr/fire/${fireId}`, {
                 method: 'DELETE',
             });
 
@@ -150,7 +151,7 @@ const HrServiceWindow = () => {
     const handleHire = async (personId, position, startDate) => {
         try {
             const response = await fetch(
-                `http://localhost:8081/api/hire/${personId}/${position}/${startDate}`,
+                `${SERVICE_URL}/hr/hire/${personId}/${position}/${startDate}`,
                 {
                     method: 'POST',
                 }

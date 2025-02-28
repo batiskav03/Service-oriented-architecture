@@ -1,4 +1,4 @@
 FROM openjdk:17-jdk-slim
 VOLUME /tmp
-COPY target/configService-0.0.1-SNAPSHOT.jar app.jar
+COPY ../../configService/target/configService-0.0.1-SNAPSHOT.jar app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]

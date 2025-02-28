@@ -1,0 +1,114 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:17
+    container_name: worker-postgres
+    environment:
+      - POSTGRES_DB=worker_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+#      - ./data/postgres:/var/lib/postgresql/data
+      - ./Infrostructure/scripts/initdb.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - worker-network
+
+  worker-service-ejb:
+    build:
+      context: .
+      dockerfile: wildfly/Dockerfile
+    ports:
+      - "8080:8080"
+      - "9990:9990"
+    depends_on:
+      - postgres
+    networks:
+      - worker-network
+
+  worker-service-web:
+    image: openjdk:17-oracle
+    volumes:
+      - ./worker-web-ebedded/worker-web-ebedded-0.0.1-SNAPSHOT.jar:/web.jar
+    command: [ "java", "-jar", "web.jar" ]
+    ports:
+      - "1516:1516"
+    networks:
+      - worker-network
+
+  consul:
+    image: consul:1.11.3
+    container_name: worker-consul
+    ports:
+      - "8500:8500"
+      - "8600:8600/udp"
+    command: agent -dev -client=0.0.0.0
+    networks:
+      - worker-network
+
+  gateway-service:
+    build: ./gateway
+    environment:
+      - CONFIG_SERVER_URL=http://config-service:8888
+      - EUREKA_SERVER=http://eureka:8761/eureka
+    ports:
+      - "8083:8080"
+    depends_on:
+      - eureka
+      - config-service
+    networks:
+      - worker-network
+
+  eureka:
+    container_name: eureka
+    build: ./eureka
+    ports:
+      - "8761:8761"
+    networks:
+      - worker-network
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8761/actuator/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  config-service:
+    build: ./configService
+    environment:
+      - EUREKA_SERVER=http://eureka:8761/eureka
+      - SPRING_PROFILES_ACTIVE=native
+    depends_on:
+      - eureka
+    ports:
+      - "8888:8888"
+    networks:
+      - worker-network
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8888/actuator/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  hrservice:
+    build: ./HR-Service
+    environment:
+      - EUREKA_SERVER=http://eureka:8761/eureka
+      - CONFIG_SERVER_URL=http://config-service:8888
+    ports:
+      - "8081:8081"
+    depends_on:
+      - eureka
+      - config-service
+    networks:
+      - worker-network
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8081/actuator/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+networks:
+  worker-network:
+    driver: bridge

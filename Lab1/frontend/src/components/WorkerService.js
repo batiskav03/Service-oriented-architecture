@@ -2,6 +2,7 @@ import React, {useState, useRef} from 'react';
 import '98.css';
 
 const WorkerService = () => {
+    const SERVICE_URL = "http://localhost:1516/"
     const [workerId, setWorkerId] = useState('');
     const [worker, setWorker] = useState(null);
     const [field, setField] = useState('');
@@ -70,7 +71,7 @@ const WorkerService = () => {
         setSuccessMessage('');
 
         try {
-            const response = await fetch('http://localhost:8080/api/worker/create', {
+            const response = await fetch(`${SERVICE_URL}/api/worker/create`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -117,7 +118,7 @@ const WorkerService = () => {
         setErrorMessage('');
 
         try {
-            const response = await fetch(`http://localhost:8080/api/worker/get/${workerId}`);
+            const response = await fetch(`${SERVICE_URL}/api/worker/get/${workerId}`);
 
             if (!response.ok) {
                 const result = await response.json();
@@ -142,7 +143,7 @@ const WorkerService = () => {
         setSuccessMessage('');
 
         try {
-            const response = await fetch(`http://localhost:8080/api/worker/get`, {
+            const response = await fetch(`http://localhost:1516/api/worker/get`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -177,7 +178,7 @@ const WorkerService = () => {
         setSuccessMessage('');
 
         try {
-            const response = await fetch(`http://localhost:8080/api/worker/delete/${workerId}`, {
+            const response = await fetch(`${SERVICE_URL}/api/worker/delete/${workerId}`, {
                 method: 'DELETE',
             });
 
@@ -213,7 +214,7 @@ const WorkerService = () => {
                 value,
             };
 
-            const response = await fetch(`http://localhost:8080/api/worker/update/${workerId}`, {
+            const response = await fetch(`localhost:1516/api/worker/update/${workerId}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',

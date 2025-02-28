@@ -192,11 +192,14 @@ public class WorkerBean implements WorkerRemote {
 
     @Deprecated
     public void save(Worker worker) {
+        worker.setId(UUID.randomUUID());
         try {
             this.executeUpdate(
                     "INSERT INTO worker (id, name, coordinates_id," +
                             " creation_date, salary, start_date," +
-                            " status, position, person_id) values (?, ?, ?, ?, ?, ?/)");
+                            " status, position, person_id) values (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    worker.getId(), worker.getName(), null, worker.getCreationDate(),
+                    worker.getSalary(), null, worker.getStatus(), worker.getPosition().toString(), null);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

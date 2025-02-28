@@ -102,6 +102,7 @@ public class WorkerController {
 
     @PostMapping("/api/worker/create")
     public MessageResponse createWorker(@RequestBody Worker worker) {
+        System.out.println(worker);
         Integer responseCode =  workerBean.createWorker(worker);
 
         if (responseCode == 404) {

@@ -47,67 +47,67 @@ services:
     command: agent -dev -client=0.0.0.0
     networks:
       - worker-network
-        
-#  gateway-service:
-#    build: ./gateway
-#    environment:
-#      - CONFIG_SERVER_URL=http://config-service:8888
-#      - EUREKA_SERVER=http://eureka:8761/eureka
-#    ports:
-#      - "8080:8080"
-#    depends_on:
-#      - eureka
-#      - config-service
-#    networks:
-#      - worker-network
-#
-#  eureka:
-#    container_name: eureka
-#    build: ./eureka
-#    ports:
-#      - "8761:8761"
-#    networks:
-#      - worker-network
-#    healthcheck:
-#      test: [ "CMD", "curl", "-f", "http://localhost:8761/actuator/health" ]
-#      interval: 30s
-#      timeout: 10s
-#      retries: 5
-#
-#  config-service:
-#    build: ./configService
-#    environment:
-#      - EUREKA_SERVER=http://eureka:8761/eureka
-#      - SPRING_PROFILES_ACTIVE=native
-#    depends_on:
-#      - eureka
-#    ports:
-#      - "8888:8888"
-#    networks:
-#      - worker-network
-#    healthcheck:
-#      test: [ "CMD", "curl", "-f", "http://localhost:8888/actuator/health" ]
-#      interval: 30s
-#      timeout: 10s
-#      retries: 5
-#
-#  hrservice:
-#    build: ./HR-Service
-#    environment:
-#      - EUREKA_SERVER=http://eureka:8761/eureka
-#      - CONFIG_SERVER_URL=http://config-service:8888
-#    ports:
-#      - "8081:8081"
-#    depends_on:
-#      - eureka
-#      - config-service
-#    networks:
-#      - worker-network
-#    healthcheck:
-#      test: [ "CMD", "curl", "-f", "http://localhost:8081/actuator/health" ]
-#      interval: 30s
-#      timeout: 10s
-#      retries: 5
+
+  gateway-service:
+    build: ./gateway
+    environment:
+      - CONFIG_SERVER_URL=http://config-service:8888
+      - EUREKA_SERVER=http://eureka:8761/eureka
+    ports:
+      - "8083:8080"
+    depends_on:
+      - eureka
+      - config-service
+    networks:
+      - worker-network
+
+  eureka:
+    container_name: eureka
+    build: ./eureka
+    ports:
+      - "8761:8761"
+    networks:
+      - worker-network
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8761/actuator/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  config-service:
+    build: ./configService
+    environment:
+      - EUREKA_SERVER=http://eureka:8761/eureka
+      - SPRING_PROFILES_ACTIVE=native
+    depends_on:
+      - eureka
+    ports:
+      - "8888:8888"
+    networks:
+      - worker-network
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8888/actuator/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  hrservice:
+    build: ./HR-Service
+    environment:
+      - EUREKA_SERVER=http://eureka:8761/eureka
+      - CONFIG_SERVER_URL=http://config-service:8888
+    ports:
+      - "8081:8081"
+    depends_on:
+      - eureka
+      - config-service
+    networks:
+      - worker-network
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8081/actuator/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
 networks:
   worker-network:
